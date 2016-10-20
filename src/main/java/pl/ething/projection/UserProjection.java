@@ -1,8 +1,8 @@
-package pl.ormrest.projection;
+package pl.ething.projection;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import pl.ormrest.model.User;
+import pl.ething.model.User;
 
 
 @Projection(name="UserProjection", types = { User.class })

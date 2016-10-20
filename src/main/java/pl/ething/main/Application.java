@@ -1,4 +1,4 @@
-package pl.ormrest.main;
+package pl.ething.main;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,13 +7,13 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = "pl.ormrest.model")
-@EnableJpaRepositories(basePackages = "pl.ormrest.repository")
-@ComponentScan(basePackages = {"pl.ormrest.config", "pl.ormrest.controller", "pl.ormrest.projection"})
+@EntityScan(basePackages = "pl.ething.model")
+@EnableJpaRepositories(basePackages = "pl.ething.repository")
+@ComponentScan(basePackages = {"pl.ething.config", "pl.ething.controller", "pl.ething.projection"})
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-	
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+
 };

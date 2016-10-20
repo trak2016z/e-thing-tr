@@ -1,4 +1,4 @@
-package pl.ormrest.model;
+package pl.ething.model;
 // default package
 // Generated 2016-09-18 18:30:32 by Hibernate Tools 4.3.1.Final
 

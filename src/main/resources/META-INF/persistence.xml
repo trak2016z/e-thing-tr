@@ -4,6 +4,9 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>pl.ething.model.User</class>
     <class>pl.ething.model.EthingUser</class>
+    <class>pl.ething.model.EthingParameter</class>
+    <class>pl.ething.model.EthingFeature</class>
+    <class>pl.ething.model.EthingThing</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://ec2-54-228-214-46.eu-west-1.compute.amazonaws.com:5432/d3gdcmhjmsbvoq"/>
       <property name="javax.persistence.jdbc.password" value="Api11NmH0FjZrs4GWee2WWINsK"/>

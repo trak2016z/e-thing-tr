@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Properties;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,24 +23,16 @@ public class DatabaseConfig {
     @Autowired
     private LocalContainerEntityManagerFactoryBean entityManagerFactory;
 
-    @Bean
+    @Bean(name = "dataSource")
     public DriverManagerDataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://ec2-54-228-214-46.eu-west-1.compute.amazonaws.com:5432/d3gdcmhjmsbvoq?sslmode=require");
-        dataSource.setUsername("vwekkkccgwsgns");
-        dataSource.setPassword("Api11NmH0FjZrs4GWee2WWINsK");
-        //dataSource.setSchema("public");
-        Properties connectionProperties = new Properties();
-        //connectionProperties.put("serverName", "ec2-54-228-214-46.eu-west-1.compute.amazonaws.com");
-        //connectionProperties.put("databaseName", "d3gdcmhjmsbvoq");
-        //connectionProperties.put("portNumber", "5432");
-        //connectionProperties.put("user", "vwekkkccgwsgns");
-        //connectionProperties.put("password", " Api11NmH0FjZrs4GWee2WWINsK");
-        //connectionProperties.put("ssl", "true");
-        //connectionProperties.put("sslfactory", "NonValidatingFactory.NonValidatingFactory");
-        dataSource.setConnectionProperties(connectionProperties);
-        return dataSource;
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+        driverManagerDataSource.setDriverClassName("org.postgresql.Driver");
+        driverManagerDataSource.setUrl("jdbc:postgresql://ec2-54-228-214-46.eu-west-1.compute.amazonaws.com:5432/d3gdcmhjmsbvoq?sslmode=require");
+        driverManagerDataSource.setUsername("vwekkkccgwsgns");
+        driverManagerDataSource.setPassword("Api11NmH0FjZrs4GWee2WWINsK");
+        //Properties connectionProperties = new Properties();
+        //dataSource.setConnectionProperties(connectionProperties);
+        return driverManagerDataSource;
     }
 
     @Bean

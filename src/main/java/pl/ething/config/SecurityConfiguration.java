@@ -5,35 +5,59 @@
  */
 package pl.ething.config;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
  * @author Koksik
  */
 @Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    DataSource dataSource;
+
+    @Autowired
     public void configureAuth(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser("admin").password("admin").roles("ADMIN");
+        //authenticationManagerBuilder.inMemoryAuthentication()
+        //.withUser("admin").password("admin").roles("ADMIN");
+        authenticationManagerBuilder.jdbcAuthentication().dataSource(dataSource)
+                .passwordEncoder(passwordEncoder())
+                .usersByUsernameQuery("select login,password, true from ething_user where login=?")
+                .authoritiesByUsernameQuery("select login, role from ething_user where login=?");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .httpBasic()
+                .authorizeRequests()
+                .antMatchers("/", "/home").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/login", "/logout").permitAll()
-                .anyRequest().authenticated();
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout().logoutUrl("/logout")
+                .permitAll();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
     }
 }

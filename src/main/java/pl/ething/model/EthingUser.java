@@ -6,23 +6,30 @@
 package pl.ething.model;
 
 import java.io.Serializable;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Koksik
  */
 @Entity
-@Table(name = "ething_user")
+@Table(name = "ething_user", catalog = "d3gdcmhjmsbvoq", schema = "public")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EthingUser.findAll", query = "SELECT e FROM EthingUser e"),
@@ -30,15 +37,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EthingUser.findByName", query = "SELECT e FROM EthingUser e WHERE e.name = :name"),
     @NamedQuery(name = "EthingUser.findByLogin", query = "SELECT e FROM EthingUser e WHERE e.login = :login"),
     @NamedQuery(name = "EthingUser.findByPassword", query = "SELECT e FROM EthingUser e WHERE e.password = :password"),
-    @NamedQuery(name = "EthingUser.findByEmail", query = "SELECT e FROM EthingUser e WHERE e.email = :email")})
+    @NamedQuery(name = "EthingUser.findByEmail", query = "SELECT e FROM EthingUser e WHERE e.email = :email"),
+    @NamedQuery(name = "EthingUser.findByRole", query = "SELECT e FROM EthingUser e WHERE e.role = :role")})
 public class EthingUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @SequenceGenerator(name = "user_id", sequenceName = "user_id" , allocationSize=1,initialValue = 1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_id")
     @Basic(optional = false)
     @NotNull
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -60,27 +70,35 @@ public class EthingUser implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "email", nullable = false, length = 2147483647)
     private String email;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "role", nullable = false, length = 2147483647)
+    private String role;
+    @OneToMany(mappedBy = "userid", fetch = FetchType.EAGER)
+    private Set<EthingThing> ethingThingSet;
 
     public EthingUser() {
     }
 
-    public EthingUser(Integer id) {
+    public EthingUser(Long id) {
         this.id = id;
     }
 
-    public EthingUser(Integer id, String name, String login, String password, String email) {
+    public EthingUser(Long id, String name, String login, String password, String email, String role) {
         this.id = id;
         this.name = name;
         this.login = login;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -116,6 +134,23 @@ public class EthingUser implements Serializable {
         this.email = email;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @XmlTransient
+    public Set<EthingThing> getEthingThingSet() {
+        return ethingThingSet;
+    }
+
+    public void setEthingThingSet(Set<EthingThing> ethingThingSet) {
+        this.ethingThingSet = ethingThingSet;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -140,5 +175,5 @@ public class EthingUser implements Serializable {
     public String toString() {
         return "pl.ething.model.EthingUser[ id=" + id + " ]";
     }
-    
+
 }

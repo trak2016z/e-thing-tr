@@ -60,14 +60,7 @@ public class MainController {
     }
 
     @RequestMapping("/login")
-    public String loginPage(HttpServletRequest request, Model model) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-        model.addAttribute("mainPage", mainPage);
-        model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-        model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
+    public String loginPage(HttpServletRequest request) {
         return "login";
     }
 
@@ -94,8 +87,6 @@ public class MainController {
         return "register";
     }
 
-    
-
     @RequestMapping(value = "/activation/{hashId}", method = RequestMethod.GET)
     public String activationUser(@PathVariable("hashId") String hashId, Model model) {
         if (hashId != "") {
@@ -108,6 +99,13 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public @ResponseBody
+    String test() {
+
+        return "test";
+
+    }
     /*@RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         String mainPage = new String(request.getRequestURL().

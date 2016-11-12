@@ -5,18 +5,24 @@
  */
 package pl.ething.config;
 
+import java.util.Properties;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import pl.ething.model.EthingUser;
 
 /**
  *
  * @author Koksik
-*/
-@Service
+ */
 public class ApplicationMail {
 
     private String SenderEmail = "virus268268@gmail.com";
 
-    /*private JavaMailSender getJavaMailSender() {
+    private JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
         sender.setProtocol("smtp");
         sender.setHost("smtp.gmail.com");
@@ -39,7 +45,7 @@ public class ApplicationMail {
         message.setSubject("Remember password in E-thing");
         MimeMessageHelper helper;
         helper = new MimeMessageHelper(message, false, "utf-8");
-        String msg = "This is your new temporary:\n"+password+"\nPlease login and change your password.";
+        String msg = "This is your new temporary:\n" + password + "\nPlease login and change your password.";
         message.setContent(msg, "text/html");
         helper.setFrom(this.SenderEmail);
         helper.setTo(ethingUser.getEmail());
@@ -58,5 +64,5 @@ public class ApplicationMail {
         helper.setTo(ethingUser.getEmail());
         //helper.setText(msg, true);
         this.getJavaMailSender().send(message);
-    }*/
+    }
 }

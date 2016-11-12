@@ -1,4 +1,4 @@
-function sendUserData(userData)
+/*function sendUserData(userData)
 {
     var result = null;
     $.ajax({
@@ -88,3 +88,4 @@ function registerUser()
     
 
 }
+*/

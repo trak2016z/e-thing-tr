@@ -13,7 +13,7 @@ import pl.ething.model.EthingFeature;
  *
  * @author Koksik
  */
-@RepositoryRestResource(collectionResourceRel = "feature", path = "feature")
+@RepositoryRestResource(collectionResourceRel = "feature", path = "feature", exported = false)
 public interface EthingFeatureRepository extends PagingAndSortingRepository<EthingFeature, Long> {
     
 }

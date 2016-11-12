@@ -16,7 +16,7 @@ and open the template in the editor.
         <script src="../public/js/registerScript.js"></script>
     </head>
     <body>
-        <div class="ui fixed inverted menu">
+        <div class=" large ui stackable inverted menu">
             <div class="ui container">
                 <a th:href="${mainPage}" class="header item">
                     <img class="logo" src="../public/img/box.png"/>
@@ -40,17 +40,14 @@ and open the template in the editor.
                         <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
                     </div>
                 </div>
-                <div class="right menu">
+                <div class="large right ui stackable inverted menu">
                     <div class="item">
-                        <img class="logo" src="../public/img/search.png"/>
-                        <div class="ui transparent inverted icon input">
-
-                            <input type="text" placeholder="Search"/>
+                        <div class="ui icon input">
+                            <input placeholder="Search..." type="text"/>
+                            <i class="search link icon"></i>
                         </div>
                     </div>
-
                     <a class="item" th:href="${loginPage}">Log-in</a>
-
                 </div>
             </div>
         </div>
@@ -134,6 +131,23 @@ and open the template in the editor.
                 <div class="image content">
                     <div class="description">
                         <div class="ui header">Error data in form</div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal" id="registerSuccessMessage">
+                <i class="close icon"></i>
+                <div class="header">
+                    Register Message
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui header">Register complete, please check your email to activity.</div>
                     </div>
                 </div>
                 <div class="actions">

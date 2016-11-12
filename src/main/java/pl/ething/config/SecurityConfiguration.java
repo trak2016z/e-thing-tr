@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //.withUser("admin").password("admin").roles("ADMIN");
         authenticationManagerBuilder.jdbcAuthentication().dataSource(dataSource)
                 .passwordEncoder(passwordEncoder())
-                .usersByUsernameQuery("select login,password, true from ething_user where login=?")
+                .usersByUsernameQuery("select login,password, true from ething_user where login=? and activation='1'")
                 .authoritiesByUsernameQuery("select login, role from ething_user where login=?");
     }
 
@@ -51,7 +51,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/register" ,"/public/**" , "/registerUser").permitAll()
+                .antMatchers("/", 
+                        "/error",
+                        "/home",
+                        "/activation/**", 
+                        "/register","/public/**",
+                        "/registerUser",
+                        "/rememberPassword",
+                        "/rememberme").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()

@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -44,11 +43,11 @@ public class EthingFeature implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @SequenceGenerator(name = "feature_id", sequenceName = "feature_id" , allocationSize=1,initialValue = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "feature_id")
     @NotNull
+    @SequenceGenerator(name = "feature_id", sequenceName = "feature_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "feature_id")
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -61,26 +60,26 @@ public class EthingFeature implements Serializable {
     @Column(name = "description", length = 2147483647)
     private String description;
     @JoinColumn(name = "thingid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private EthingThing thingid;
 
     public EthingFeature() {
     }
 
-    public EthingFeature(Integer id) {
+    public EthingFeature(Long id) {
         this.id = id;
     }
 
-    public EthingFeature(Integer id, String name) {
+    public EthingFeature(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -140,5 +139,5 @@ public class EthingFeature implements Serializable {
     public String toString() {
         return "pl.ething.model.EthingFeature[ id=" + id + " ]";
     }
-    
+
 }

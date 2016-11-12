@@ -14,7 +14,7 @@ import pl.ething.model.EthingThing;
  *
  * @author Koksik
  */
-@RepositoryRestResource(collectionResourceRel = "parameter", path = "parameter")
+@RepositoryRestResource(collectionResourceRel = "parameter", path = "parameter", exported = false)
 public interface EthingParameterRepository extends PagingAndSortingRepository<EthingParameter, Long> {
     
 }

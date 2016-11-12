@@ -13,6 +13,7 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="../public/css/loginStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
+        <script src="../public/js/remembermeScript.js"></script>
     </head>
     <body>
         <div class="ui middle aligned center aligned grid" tiles:fragment="content">
@@ -20,34 +21,43 @@ and open the template in the editor.
                 <h2 class="ui teal image header">
                     <img src="../public/img/lock.png" class="image"/>
                     <div class="content" style="color: #000;">
-                        Log-in to your account
+                        Remember your password
                     </div>
                 </h2>  
-                <form class="ui large form" name="f" th:action="@{/login}" method="post">
+                <form class="ui large form" name="f">
                     <div class="ui stacked segment">
                         <fieldset>
-                            <legend>Please Login</legend>
-                            <div th:if="${param.error}" class="alert alert-error">    
-                                Invalid username and password.
-                            </div>
-                            <div th:if="${param.logout}" class="alert alert-success"> 
-                                You have been logged out.
-                            </div>
                             <div class="field">
-                                <input type="text" id="username" name="username" placeholder="Username"/> 
-                            </div>
-                            <div class="field">
-                                <input type="password" id="password" name="password" placeholder="Password"/>    
+                                <input type="text" id="email" name="email" placeholder="Email"/> 
                             </div>
                             <div class="form-actions">
-                                <button type="submit" class="ui fluid large teal submit button" style="background-color: #333;" >Log in</button>
+                                <button onclick="rememberMe();" class="ui fluid large teal submit button" style="background-color: #333;" type="button">Send new password</button>
                             </div>
                         </fieldset>
                     </div>
                 </form>
-                <div class="ui message">
-                    <p>New to us? <a th:href="${registerPage}">Sign Up</a></p>
-                    <p>Forgot your password? <a th:href="${rememberMePage}">Remember me</a></p>
+            </div>
+
+        </div>
+        <div id="registerMessages">
+            <div class="ui modal" id="remembermeErrorMessage">
+                <div class="header">Remember Me Message</div>
+                <div class="content">Error data.</div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal" id="remembermeSuccessMessage">
+                <div class="header">Remember Me Message</div>
+                <div class="content">Successful change password, please check your email.</div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
                 </div>
             </div>
         </div>

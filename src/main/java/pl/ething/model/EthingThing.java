@@ -11,21 +11,20 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 
 /**
  *
@@ -48,10 +47,10 @@ public class EthingThing implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @SequenceGenerator(name = "thing_id", sequenceName = "thing_id" , allocationSize=1,initialValue = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "thing_id")
+    @SequenceGenerator(name = "thing_id", sequenceName = "thing_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "thing_id")
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
@@ -78,21 +77,21 @@ public class EthingThing implements Serializable {
     @Column(name = "status", nullable = false, length = 2147483647)
     private String status;
     @JoinColumn(name = "userid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private EthingUser userid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid")
     private Set<EthingParameter> ethingParameterSet;
-    @OneToMany(mappedBy = "thingid", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "thingid")
     private Set<EthingFeature> ethingFeatureSet;
 
     public EthingThing() {
     }
 
-    public EthingThing(Integer id) {
+    public EthingThing(Long id) {
         this.id = id;
     }
 
-    public EthingThing(Integer id, String idhash, String name, String model, String firm, String status) {
+    public EthingThing(Long id, String idhash, String name, String model, String firm, String status) {
         this.id = id;
         this.idhash = idhash;
         this.name = name;
@@ -101,11 +100,11 @@ public class EthingThing implements Serializable {
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -199,5 +198,5 @@ public class EthingThing implements Serializable {
     public String toString() {
         return "pl.ething.model.EthingThing[ id=" + id + " ]";
     }
-    
+
 }

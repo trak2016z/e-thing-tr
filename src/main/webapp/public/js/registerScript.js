@@ -1,21 +1,23 @@
 function sendUserData(userData)
 {
+    var result = null;
     $.ajax({
         url: "http://localhost:8080/registerUser",
         type: "PUT",
         data: JSON.stringify(userData),
+        async: false,
         dataType: "json",
         contentType: 'application/json',
         success: function (response) {
-            return 1;
-            //console.log(response);
+            result = response;
         },
         error: function (error)
         {
-            return 0;
+            result = error;
             //console.log(error);
         }
     });
+    return result;
 }
 function getObjectUserFromForm(jquery)
 {
@@ -62,12 +64,27 @@ function registerUser()
         //console.log(userData);
         if (checkUserDataFromForm(userData))
         {
-            $('#registerAcceptMessage').modal('show');
-            //delete userData["repassword"];
-            //sendUserData(userData);
-        }            
-    }
-    else
-        $('#registerAgreeTermsMessage').modal('show');  
+            $('#registerAcceptMessage')
+                    .modal({
+                        closable: false,
+                        onDeny: function () {
+                            //window.alert('Wait not yet!');
+                            return false;
+                        },
+                        onApprove: function () {
+                            delete userData["repassword"];
+                            if (sendUserData(userData)=="error")
+                                $('#registerDataErrorMessage').modal('show');
+                            else 
+                            {
+                                document.getElementById("userForm").reset();
+                                $('#registerSuccessMessage').modal('show');
+                            }
+                        }
+                    }).modal('show');
+        }
+    } else
+        $('#registerAgreeTermsMessage').modal('show');
     
+
 }

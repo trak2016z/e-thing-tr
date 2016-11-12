@@ -1,4 +1,4 @@
-
+/*
 function sendNewPassword(userEmail)
 {
     var result = null;
@@ -38,3 +38,4 @@ function rememberMe()
     }
     //alert(email);
 }
+*/

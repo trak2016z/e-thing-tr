@@ -47,7 +47,7 @@ public class UserController {
             String hashedPassword = passwordEncoder.encode(newPassword+"");
             user.setPassword(hashedPassword);
             this.ethingUserRepository.save(user);
-            senderMail.sendEmailRememberMeUser(user, newPassword+"");
+            //senderMail.sendEmailRememberMeUser(user, newPassword+"");
             return "message";
         } else {
             return "error";
@@ -73,7 +73,7 @@ public class UserController {
             activation = Math.abs(activation);
             newEthingUser.setActivation(activation + "");
             this.ethingUserRepository.save(newEthingUser);
-            this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
+            //this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
             return "message";
         } catch (Exception e) {
 

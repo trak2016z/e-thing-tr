@@ -95,8 +95,6 @@ public class MainController {
         return "register";
     }
 
-    
-
     @RequestMapping(value = "/activation/{hashId}", method = RequestMethod.GET)
     public String activationUser(@PathVariable("hashId") String hashId, Model model) {
         if (hashId != "") {
@@ -109,6 +107,13 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public @ResponseBody
+    String test() {
+
+        return "test";
+
+    }
     /*@RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         String mainPage = new String(request.getRequestURL().

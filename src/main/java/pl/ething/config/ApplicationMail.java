@@ -20,7 +20,7 @@ import pl.ething.model.EthingUser;
 /**
  *
  * @author Koksik
- */
+
 @Service
 public class ApplicationMail {
 
@@ -70,3 +70,4 @@ public class ApplicationMail {
         this.getJavaMailSender().send(message);
     }
 }
+*/

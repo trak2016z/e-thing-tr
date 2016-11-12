@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.ething.config.ApplicationMail;
 import pl.ething.model.EthingUser;
 import pl.ething.repository.EthingUserRepository;
 
@@ -35,10 +34,10 @@ public class UserController {
     @Autowired
     EthingUserRepository ethingUserRepository;
 
-    @Autowired
-    ApplicationMail senderMail;
+    //@Autowired
+    //ApplicationMail senderMail;
 
-    @RequestMapping(value = "/rememberPassword", method = RequestMethod.PUT)
+    /*@RequestMapping(value = "/rememberPassword", method = RequestMethod.PUT)
     public @ResponseBody String rememberUserPassword(@RequestBody String email) throws MessagingException {
         EthingUser user = this.ethingUserRepository.findEthingUserByEmailAndActivation(email,"");
         if (user != null) {
@@ -88,5 +87,5 @@ public class UserController {
         user.setPassword("");
         return user;
 
-    }
+    }*/
 }

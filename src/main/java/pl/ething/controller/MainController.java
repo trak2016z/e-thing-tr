@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
-import pl.ething.config.ApplicationMail;
 import pl.ething.model.EthingUser;
 import pl.ething.repository.EthingUserRepository;
 

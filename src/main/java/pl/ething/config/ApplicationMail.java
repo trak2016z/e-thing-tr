@@ -5,7 +5,7 @@
  */
 package pl.ething.config;
 
-/*import java.util.Properties;
+import java.util.Properties;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -16,16 +16,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import pl.ething.model.EthingUser;*/
+import pl.ething.model.EthingUser;
 
 /**
  *
  * @author Koksik
  */
-//@Service
+@Service
 public class ApplicationMail {
 
-    /*private String SenderEmail = "virus268268@gmail.com";
+    private String SenderEmail = "virus268268@gmail.com";
 
     private JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
@@ -69,5 +69,5 @@ public class ApplicationMail {
         helper.setTo(ethingUser.getEmail());
         //helper.setText(msg, true);
         this.getJavaMailSender().send(message);
-    }*/
+    }
 }

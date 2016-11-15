@@ -39,9 +39,8 @@ public class UserController {
     ApplicationMail senderMail;
 
     @RequestMapping(value = "/rememberPassword", method = RequestMethod.PUT)
-    public @ResponseBody
-    String rememberUserPassword(@RequestBody String email) throws MessagingException {
-        EthingUser user = this.ethingUserRepository.findEthingUserByEmailAndActivation(email, "");
+    public @ResponseBody String rememberUserPassword(@RequestBody String email) throws MessagingException {
+        EthingUser user = this.ethingUserRepository.findEthingUserByEmailAndActivation(email,"");
         if (user != null) {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             int newPassword = Math.abs(user.getPassword().hashCode());
@@ -49,6 +48,8 @@ public class UserController {
             user.setPassword(hashedPassword);
             this.ethingUserRepository.save(user);
             senderMail.sendEmailRememberMeUser(user, newPassword + "");
+
+            //senderMail.sendEmailRememberMeUser(user, newPassword+"");
             return "message";
         } else {
             return "error";
@@ -75,7 +76,7 @@ public class UserController {
             activation = Math.abs(activation);
             newEthingUser.setActivation(activation + "");
             this.ethingUserRepository.save(newEthingUser);
-            this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
+            //this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
             return "message";
         } catch (Exception e) {
 

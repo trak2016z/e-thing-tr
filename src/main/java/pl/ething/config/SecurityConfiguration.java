@@ -52,6 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/", 
+                        "/test",
                         "/error",
                         "/home",
                         "/activation/**", 

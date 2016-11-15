@@ -1,3 +1,4 @@
+
 function getMainPage()
 {
     pathArray = location.href.split('/');

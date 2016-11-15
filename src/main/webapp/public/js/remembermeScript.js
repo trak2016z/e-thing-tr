@@ -1,3 +1,4 @@
+
 function getMainPage()
 {
     pathArray = location.href.split('/');
@@ -6,6 +7,7 @@ function getMainPage()
     url = protocol + '//' + host;
     return url;
 }
+
 
 function sendNewPassword(userEmail)
 {

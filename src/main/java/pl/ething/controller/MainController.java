@@ -53,7 +53,6 @@ public class MainController {
         return "profil";
     }
 
-    @RequestMapping("/login")
     public String loginPage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
@@ -110,6 +109,12 @@ public class MainController {
         }
     }
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+
+        return "index";
+
+    }
     /*@RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         String mainPage = new String(request.getRequestURL().

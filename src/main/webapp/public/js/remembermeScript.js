@@ -1,14 +1,23 @@
+function getMainPage()
+{
+    pathArray = location.href.split('/');
+    protocol = pathArray[0];
+    host = pathArray[2];
+    url = protocol + '//' + host;
+    return url;
+}
 
 function sendNewPassword(userEmail)
 {
+    
     var result = null;
     $.ajax({
-        url: "http://localhost:8080/rememberPassword",
+        url: getMainPage()+"rememberPassword",
         type: "PUT",
         data: userEmail,
         async: false,
         contentType: 'application/json',
-        success: function (response) 
+        success: function (response)
         {
             result = response;
         },
@@ -28,11 +37,11 @@ function rememberMe()
     {
         var result = sendNewPassword(email);
         console.log(result);
-        if (result=="message")
+        if (result == "message")
         {
             $('#email').val('');
             $('#remembermeSuccessMessage').modal('show');
-            
+
         } else
             $('#remembermeErrorMessage').modal('show');
     }

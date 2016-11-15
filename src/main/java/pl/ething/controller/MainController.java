@@ -8,24 +8,10 @@ package pl.ething.controller;
 import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
-import org.springframework.boot.autoconfigure.web.BasicErrorController;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ErrorProperties;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
-import org.springframework.http.HttpStatus;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
-import pl.ething.config.ApplicationMail;
 import pl.ething.model.EthingUser;
 import pl.ething.repository.EthingUserRepository;
 
@@ -43,30 +29,40 @@ public class MainController {
     EthingUserRepository ethingUserRepository;
 
     @RequestMapping("/")
-    public String homePage(HttpServletRequest request, Model model) {
+    public String homePage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-        model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+                if(principal==null)
+            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+        else 
+            model.addAttribute("loginPage", mainPage );
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         return "home";
     }
 
     @RequestMapping("/{name}/profil")
-    public String profilPage(@PathVariable("name") String name, Model model) {
+    public String profilPage(HttpServletRequest request, @PathVariable("name") String name, Model model) {
+        String mainPage = new String(request.getRequestURL().
+                toString().substring(0, request.getRequestURL().
+                        toString().lastIndexOf("/")));
+        mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
         EthingUser user = ethingUserRepository.findEthingUserByName(name);
         model.addAttribute("user", user);
         return "profil";
     }
 
     @RequestMapping("/login")
-    public String loginPage(HttpServletRequest request, Model model) {
+    public String loginPage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-        model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+        if(principal==null)
+            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+        else 
+            model.addAttribute("loginPage", mainPage );
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
         return "login";
@@ -95,11 +91,16 @@ public class MainController {
         return "register";
     }
 
-    
-
     @RequestMapping(value = "/activation/{hashId}", method = RequestMethod.GET)
-    public String activationUser(@PathVariable("hashId") String hashId, Model model) {
+    public String activationUser(HttpServletRequest request, @PathVariable("hashId") String hashId, Model model) {
         if (hashId != "") {
+            String mainPage = new String(request.getRequestURL().
+                    toString().substring(0, request.getRequestURL().
+                            toString().lastIndexOf("/")));
+            mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
+            model.addAttribute("mainPage", mainPage);
+            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+            model.addAttribute("registerPage", mainPage + REGISTER_HTML);
             EthingUser user = ethingUserRepository.findEthingUserByActivation(hashId);
             user.setActivation("1");
             ethingUserRepository.save(user);

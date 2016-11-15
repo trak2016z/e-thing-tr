@@ -58,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/register","/public/**",
                         "/registerUser",
                         "/rememberPassword",
+                        "/getLogedUser",
                         "/rememberme").permitAll()
                 .anyRequest().authenticated()
                 .and()

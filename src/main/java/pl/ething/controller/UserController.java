@@ -39,15 +39,16 @@ public class UserController {
     ApplicationMail senderMail;
 
     @RequestMapping(value = "/rememberPassword", method = RequestMethod.PUT)
-    public @ResponseBody String rememberUserPassword(@RequestBody String email) throws MessagingException {
-        EthingUser user = this.ethingUserRepository.findEthingUserByEmailAndActivation(email,"");
+    public @ResponseBody
+    String rememberUserPassword(@RequestBody String email) throws MessagingException {
+        EthingUser user = this.ethingUserRepository.findEthingUserByEmailAndActivation(email, "");
         if (user != null) {
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();   
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
             int newPassword = Math.abs(user.getPassword().hashCode());
-            String hashedPassword = passwordEncoder.encode(newPassword+"");
+            String hashedPassword = passwordEncoder.encode(newPassword + "");
             user.setPassword(hashedPassword);
             this.ethingUserRepository.save(user);
-            senderMail.sendEmailRememberMeUser(user, newPassword+"");
+            senderMail.sendEmailRememberMeUser(user, newPassword + "");
             return "message";
         } else {
             return "error";
@@ -55,7 +56,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registerUser", method = RequestMethod.PUT)
-    public @ResponseBody String registerUser(HttpServletRequest request, @RequestBody EthingUser ethingUser, Model model) {
+    public @ResponseBody
+    String registerUser(HttpServletRequest request, @RequestBody EthingUser ethingUser, Model model) {
         try {
             String mainPage = new String(request.getRequestURL().
                     toString().substring(0, request.getRequestURL().
@@ -82,11 +84,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/getLogedUser", method = RequestMethod.GET)
-    public EthingUser currentUserName(Principal principal) {
-        EthingUser user = ethingUserRepository.findEthingUserByName(principal.getName());
-        user.setId(Long.MIN_VALUE);
-        user.setPassword("");
-        return user;
+    public @ResponseBody
+    EthingUser currentUserName(Principal principal) {
+        if (principal != null) {
+            EthingUser user = ethingUserRepository.findEthingUserByName(principal.getName());
+            user.setId(Long.MIN_VALUE);
+            user.setPassword("");
+            return user;
+        } else {
+            return null;
+        }
 
     }
 }

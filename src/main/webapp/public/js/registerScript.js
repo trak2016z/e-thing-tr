@@ -1,8 +1,16 @@
+function getMainPage()
+{
+    pathArray = location.href.split('/');
+    protocol = pathArray[0];
+    host = pathArray[2];
+    url = protocol + '//' + host;
+    return url;
+}
 function sendUserData(userData)
 {
     var result = null;
     $.ajax({
-        url: "http://localhost:8080/registerUser",
+        url: getMainPage()+"/registerUser",
         type: "PUT",
         data: JSON.stringify(userData),
         async: false,

@@ -13,9 +13,11 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="../public/css/homeStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
+        <script src="../public/js/startScript.js"></script>
+
     </head>
     <body>
-        <div class=" large ui stackable inverted menu">
+        <div class="large ui stackable inverted menu">
             <div class="ui container">
                 <a th:href="${mainPage}" class="header item">
                     <img class="logo" src="../public/img/box.png"/>
@@ -46,7 +48,7 @@ and open the template in the editor.
                             <i class="search link icon"></i>
                         </div>
                     </div>
-                    <a class="item" th:href="${loginPage}">Log-in</a>
+                    <a id="logedInfo" class="item" th:href="${loginPage}">Log-in</a>
                 </div>
             </div>
         </div>
@@ -115,4 +117,7 @@ and open the template in the editor.
             </div>
         </div>
     </body>
+    <script>
+        checkLoggedUser();
+    </script>
 </html>

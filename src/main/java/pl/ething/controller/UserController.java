@@ -76,7 +76,7 @@ public class UserController {
             activation = Math.abs(activation);
             newEthingUser.setActivation(activation + "");
             this.ethingUserRepository.save(newEthingUser);
-            //this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
+            this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
             return "message";
         } catch (Exception e) {
 

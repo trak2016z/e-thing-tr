@@ -34,10 +34,11 @@ public class MainController {
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-                if(principal==null)
+        if (principal == null) {
             model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        else 
-            model.addAttribute("loginPage", mainPage );
+        } else {
+            model.addAttribute("loginPage", mainPage);
+        }
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         return "home";
     }
@@ -53,15 +54,17 @@ public class MainController {
         return "profil";
     }
 
+    @RequestMapping("/login")
     public String loginPage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-        if(principal==null)
+        if (principal == null) {
             model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        else 
-            model.addAttribute("loginPage", mainPage );
+        } else {
+            model.addAttribute("loginPage", mainPage);
+        }
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
         return "login";

@@ -34,10 +34,11 @@ public class MainController {
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-                if(principal==null)
+        if (principal == null) {
             model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        else 
-            model.addAttribute("loginPage", mainPage );
+        } else {
+            model.addAttribute("loginPage", mainPage);
+        }
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         return "home";
     }
@@ -53,15 +54,17 @@ public class MainController {
         return "profil";
     }
 
+    @RequestMapping("/login")
     public String loginPage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
         model.addAttribute("mainPage", mainPage);
-        if(principal==null)
+        if (principal == null) {
             model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        else 
-            model.addAttribute("loginPage", mainPage );
+        } else {
+            model.addAttribute("loginPage", mainPage);
+        }
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
         return "login";
@@ -101,20 +104,20 @@ public class MainController {
             model.addAttribute("loginPage", mainPage + LOGIN_HTML);
             model.addAttribute("registerPage", mainPage + REGISTER_HTML);
             EthingUser user = ethingUserRepository.findEthingUserByActivation(hashId);
-            user.setActivation("1");
-            ethingUserRepository.save(user);
-            return "activation";
+            if(user!=null)
+            {
+                user.setActivation("1");
+                ethingUserRepository.save(user);
+                return "activation";
+            }
+            else 
+                return "home";
         } else {
             return "home";
         }
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String test() {
 
-        return "index";
-
-    }
     /*@RequestMapping("/error")
     public String error(HttpServletRequest request, Model model) {
         String mainPage = new String(request.getRequestURL().

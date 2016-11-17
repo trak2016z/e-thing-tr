@@ -39,8 +39,8 @@ function checkLoggedUser()
     } else
     {
         //var myValue = $(".large ui stackable inverted menu .ui container .large right ui stackable inverted menu"); 
-        console.log(loggedUser);
-        var MyDiv1 = document.getElementById('logedInfo').innerHTML = loggedUser.name;
+        //console.log(loggedUser);
+        //var MyDiv1 = document.getElementById('logedInfo').innerHTML = loggedUser.name;
         console.log(MyDiv1);
     }
 }

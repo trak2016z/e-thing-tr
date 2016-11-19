@@ -6,6 +6,10 @@ function getMainPage()
     url = protocol + '//' + host;
     return url;
 }
+function searchTextInPageData()
+{
+    
+}
 function sendUserLoggedData()
 {
     var result = null;
@@ -28,19 +32,10 @@ function sendUserLoggedData()
     });
     return result;
 }
-
-function checkLoggedUser()
+function search()
 {
-    var loggedUser = sendUserLoggedData();
-
-    if (loggedUser.status == 500)
-    {
-        console.log('no loged');
-    } else
-    {
-        //var myValue = $(".large ui stackable inverted menu .ui container .large right ui stackable inverted menu"); 
-        //console.log(loggedUser);
-        //var MyDiv1 = document.getElementById('logedInfo').innerHTML = loggedUser.name;
-        console.log(MyDiv1);
-    }
+    $("#searchButton").click(function () {
+        alert($("#searchInput").val());
+        
+    });
 }

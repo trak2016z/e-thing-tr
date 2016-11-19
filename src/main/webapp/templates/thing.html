@@ -53,37 +53,9 @@ and open the template in the editor.
         </div>
 
         <div class="ui main text container">
-            <h1 class="ui header">Register new user</h1>
-            <p>Please write your data to form</p>
-            <form id="userForm" class="ui form">
-                <div class="field">
-                    <label>Login:</label>
-                    <input type="text" name="login" placeholder="login"/>
-                </div>
-                <div class="field">
-                    <label>Nick:</label>
-                    <input type="text" name="name" placeholder="name"/>
-                </div>
-                <div class="field">
-                    <label>Email:</label>
-                    <input type="text" name="email" placeholder="email"/>
-                </div>
-                <div class="field">
-                    <label>Password:</label>
-                    <input type="password" name="password" placeholder="password"/>
-                </div>
-                <div class="field">
-                    <label>Re-Password:</label>
-                    <input type="password" name="repassword" placeholder="repassword"/>
-                </div>
-                <div class="field">
-                    <div class="ui checkbox">
-                        <input type="checkbox" name="agreeTermsAndConditions"/>
-                        <label>I agree to the Terms and Conditions</label>
-                    </div>
-                </div>
-                <button onclick="registerUser()" class="ui button" type="button">Submit</button>
-            </form>
+            Name: <p class="ui header" th:text="${thing.name}"></p>
+            Model: <p class="ui header" th:text="${thing.model}"></p>
+            Firm: <p class="ui header" th:text="${thing.firm}"></p>
         </div>
         <div id="registerMessages">
             <div class="ui modal" id="registerAcceptMessage">

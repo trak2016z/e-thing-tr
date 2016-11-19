@@ -60,12 +60,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/registerUser",
                         "/rememberPassword",
                         "/getLogedUser",
+                        "/profil/**",
                         "/rememberme").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout")

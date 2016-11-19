@@ -19,5 +19,6 @@ public interface EthingUserRepository extends PagingAndSortingRepository<EthingU
     
     EthingUser findEthingUserByName(String name);
     EthingUser findEthingUserByActivation(String activation);
+    EthingUser findEthingUserByNameAndActivation(String name,String activation);
     EthingUser findEthingUserByEmailAndActivation(String email,String activation);
 }

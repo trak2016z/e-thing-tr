@@ -33,7 +33,7 @@ public class ApplicationMail {
         sender.setHost("smtp.gmail.com");
         sender.setPort(587);
         sender.setUsername(this.SenderEmail);
-        sender.setPassword("killman268");
+        sender.setPassword("katarzyna268");
 
         Properties mailProps = new Properties();
         mailProps.put("mail.smtps.auth", "true");
@@ -54,6 +54,7 @@ public class ApplicationMail {
         message.setContent(msg, "text/html");
         helper.setFrom(this.SenderEmail);
         helper.setTo(ethingUser.getEmail());
+        System.out.print("email send!");
         this.getJavaMailSender().send(message);
     }
 
@@ -67,7 +68,7 @@ public class ApplicationMail {
         message.setContent(msg, "text/html");
         helper.setFrom(this.SenderEmail);
         helper.setTo(ethingUser.getEmail());
-        //helper.setText(msg, true);
+        System.out.print("email send!");
         this.getJavaMailSender().send(message);
     }
 }

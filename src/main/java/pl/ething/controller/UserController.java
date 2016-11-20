@@ -96,7 +96,6 @@ public class UserController {
         } else {
             return null;
         }
-
     }
 
 }

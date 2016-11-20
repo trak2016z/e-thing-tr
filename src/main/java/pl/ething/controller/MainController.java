@@ -126,7 +126,6 @@ public class MainController {
                     toString().substring(0, request.getRequestURL().
                             toString().lastIndexOf("/")));
             mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
-
             model.addAttribute("mainPage", mainPage);
             if (principal == null) {
                 model.addAttribute("loginPage", mainPage + LOGIN_HTML);
@@ -168,3 +167,4 @@ public class MainController {
         }
     }
 }
+

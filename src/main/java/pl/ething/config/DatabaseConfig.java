@@ -33,8 +33,6 @@ public class DatabaseConfig {
         //driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
         //driverManagerDataSource.setUsername("postgres");
         //driverManagerDataSource.setPassword("root");
-        //Properties connectionProperties = new Properties();
-        //dataSource.setConnectionProperties(connectionProperties);
         return driverManagerDataSource;
     }
 

@@ -10,86 +10,23 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
         <title tiles:fragment="title">E-thing</title>
         <link rel="stylesheet" type="text/css" href="../public/lib/semantic.min.css"/>
-        <link rel="stylesheet" type="text/css" href="../public/css/homeStyle.css"/>
+        <link rel="stylesheet" type="text/css" href="../public/css/loginStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
+        <script src="../public/js/remembermeScript.js"></script>
     </head>
     <body>
-        <div class=" large ui stackable inverted menu">
-            <div class="ui container">
-                <a th:href="${mainPage}" class="header item">
-                    <img class="logo" src="../public/img/box.png"/>
-                    E-thing
-                </a>
-                <div class="ui simple dropdown item">
-                    Menu <i class="dropdown icon"></i>
-                    <div class="menu">
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                        <div class="divider"></div>
-                        <div class="header">Header Item</div>
-                        <div class="item">
-                            <i class="dropdown icon"></i>
-                            Sub Menu
-                            <div class="menu">
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                            </div>
-                        </div>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+        <div class="ui middle aligned center aligned grid" tiles:fragment="content">
+            <div class="column">
+                <h2 class="ui teal image header">
+                    <img src="../public/img/checkmark.png" class="image"/>
+                    <div class="content" style="color: #000;">
+                        Your account is activity
                     </div>
-                </div>
-                <div class="large right ui stackable inverted menu">
-                    <div class="item">
-                        <div class="ui icon input">
-                            <input placeholder="Search..." type="text"/>
-                            <i class="search link icon"></i>
-                        </div>
-                    </div>
-                    <a class="item" th:href="${loginPage}">Log-in</a>
-                </div>
+                </h2>  
             </div>
-        </div>
 
-        <div class="ui main text container">
-            <h1 class="ui header">User activation</h1>
-            <p>Your account is activity</p>
         </div>
-
-        <div class="ui inverted vertical footer segment">
-            <div class="ui center aligned container">
-                <div class="ui stackable inverted divided grid">
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Last e-thing</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Last e-user</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="seven wide column">
-                        <h4 class="ui inverted header">Footer Header</h4>
-                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
-                    </div>
-                </div>
-                <div class="ui inverted section divider"></div>
-                <div class="ui horizontal inverted small divided link list">
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Site Map</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Contact Us</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Terms and Conditions</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Privacy Policy</a>
-                </div>
-            </div>
-        </div>
+        
     </body>
 </html>

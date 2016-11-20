@@ -46,22 +46,14 @@ and open the template in the editor.
                             <i class="search link icon"></i>
                         </div>
                     </div>
-                    <a class="item" th:href="${loginPage}">Log-in</a>
+                    <a id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
                 </div>
             </div>
         </div>
 
         <div class="ui main text container">
-            <div class="ui column centered grid">
-                <div class="two width row">
-                    <div class="column"><img class="ui small images" src="../public/img/box.png"/></div>
-                    <div class="column"><h1 class="ui header" th:text="${user.name}"></h1></div>
-                </div>
-            </div>
-            
-            
+            Name: <p class="ui header" th:text="${user.name}"></p>
             Email: <p class="ui header" th:text="${user.email}"></p>
-            Role: <p class="ui header" th:text="${user.role}"></p>
         </div>
 
         <div class="ui inverted vertical footer segment">

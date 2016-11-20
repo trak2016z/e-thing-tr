@@ -16,5 +16,6 @@ import pl.ething.model.EthingUser;
  */
 @RepositoryRestResource(collectionResourceRel = "thing", path = "thing", exported = false)
 public interface EthingThingRepository extends PagingAndSortingRepository<EthingThing, Long> {
-    
+
+    EthingThing findEthingThingByIdhash(String idhash);
 }

@@ -52,18 +52,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                 .antMatchers("/", 
+                        "/test",
                         "/error",
                         "/home",
                         "/activation/**", 
                         "/register","/public/**",
                         "/registerUser",
                         "/rememberPassword",
+                        "/getLogedUser",
+                        "/profil/**",
                         "/rememberme").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login").defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout")

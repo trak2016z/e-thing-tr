@@ -43,6 +43,11 @@ import javax.persistence.SequenceGenerator;
     @NamedQuery(name = "EthingThing.findByStatus", query = "SELECT e FROM EthingThing e WHERE e.status = :status")})
 public class EthingThing implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private boolean access;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -198,5 +203,14 @@ public class EthingThing implements Serializable {
     public String toString() {
         return "pl.ething.model.EthingThing[ id=" + id + " ]";
     }
+
+    public boolean getAccess() {
+        return access;
+    }
+
+    public void setAccess(boolean access) {
+        this.access = access;
+    }
+
 
 }

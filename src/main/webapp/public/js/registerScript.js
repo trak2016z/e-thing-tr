@@ -1,8 +1,17 @@
+
+function getMainPage()
+{
+    pathArray = location.href.split('/');
+    protocol = pathArray[0];
+    host = pathArray[2];
+    url = protocol + '//' + host;
+    return url;
+}
 function sendUserData(userData)
 {
     var result = null;
     $.ajax({
-        url: "http://localhost:8080/registerUser",
+        url: getMainPage()+"/registerUser",
         type: "PUT",
         data: JSON.stringify(userData),
         async: false,
@@ -73,7 +82,8 @@ function registerUser()
                         },
                         onApprove: function () {
                             delete userData["repassword"];
-                            if (sendUserData(userData)=="error")
+                            var result = sendUserData(userData);
+                            if (result.responseText=="error")
                                 $('#registerDataErrorMessage').modal('show');
                             else 
                             {

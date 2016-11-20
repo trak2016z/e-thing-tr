@@ -30,6 +30,9 @@ public class DatabaseConfig {
         driverManagerDataSource.setUrl("jdbc:postgresql://ec2-54-228-214-46.eu-west-1.compute.amazonaws.com:5432/d3gdcmhjmsbvoq?sslmode=require");
         driverManagerDataSource.setUsername("vwekkkccgwsgns");
         driverManagerDataSource.setPassword("Api11NmH0FjZrs4GWee2WWINsK");
+        //driverManagerDataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
+        //driverManagerDataSource.setUsername("postgres");
+        //driverManagerDataSource.setPassword("root");
         //Properties connectionProperties = new Properties();
         //dataSource.setConnectionProperties(connectionProperties);
         return driverManagerDataSource;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.ething.config;
 
 import java.util.Properties;
@@ -19,7 +14,7 @@ import pl.ething.model.EthingUser;
 
 /**
  *
- * @author Koksik
+ * @author prographer
 */
 @Service
 public class ApplicationMail {

@@ -1,11 +1,6 @@
 package pl.ething.config;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
 import java.util.Properties;
-import org.apache.tomcat.jdbc.pool.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +10,11 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ *
+ * @author prographer
+*/
 
 @Configuration
 @EnableTransactionManagement

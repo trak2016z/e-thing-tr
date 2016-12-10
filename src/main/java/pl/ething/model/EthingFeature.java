@@ -6,21 +6,19 @@
 package pl.ething.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,14 +28,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Koksik
  */
 @Entity
-@Table(name = "ething_feature", catalog = "d3gdcmhjmsbvoq", schema = "public")
+@Table(name = "ething_feature")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EthingFeature.findAll", query = "SELECT e FROM EthingFeature e"),
     @NamedQuery(name = "EthingFeature.findById", query = "SELECT e FROM EthingFeature e WHERE e.id = :id"),
     @NamedQuery(name = "EthingFeature.findByName", query = "SELECT e FROM EthingFeature e WHERE e.name = :name"),
-    @NamedQuery(name = "EthingFeature.findByDate", query = "SELECT e FROM EthingFeature e WHERE e.date = :date"),
-    @NamedQuery(name = "EthingFeature.findByDescription", query = "SELECT e FROM EthingFeature e WHERE e.description = :description")})
+    @NamedQuery(name = "EthingFeature.findByDescription", query = "SELECT e FROM EthingFeature e WHERE e.description = :description"),
+    @NamedQuery(name = "EthingFeature.findByEffect", query = "SELECT e FROM EthingFeature e WHERE e.effect = :effect")})
 public class EthingFeature implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,14 +51,16 @@ public class EthingFeature implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "name", nullable = false, length = 2147483647)
     private String name;
-    @Column(name = "date")
-    @Temporal(TemporalType.DATE)
-    private Date date;
     @Size(max = 2147483647)
     @Column(name = "description", length = 2147483647)
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "effect", nullable = false, length = 2147483647)
+    private String effect;
     @JoinColumn(name = "thingid", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private EthingThing thingid;
 
     public EthingFeature() {
@@ -70,9 +70,10 @@ public class EthingFeature implements Serializable {
         this.id = id;
     }
 
-    public EthingFeature(Long id, String name) {
+    public EthingFeature(Long id, String name, String effect) {
         this.id = id;
         this.name = name;
+        this.effect = effect;
     }
 
     public Long getId() {
@@ -91,20 +92,20 @@ public class EthingFeature implements Serializable {
         this.name = name;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getEffect() {
+        return effect;
+    }
+
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 
     public EthingThing getThingid() {

@@ -9,14 +9,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,48 +28,48 @@ import javax.persistence.SequenceGenerator;
  * @author Koksik
  */
 @Entity
-@Table(name = "ething_parameter", catalog = "d3gdcmhjmsbvoq", schema = "public")
+@Table(name = "ething_thingimage")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "EthingParameter.findAll", query = "SELECT e FROM EthingParameter e"),
-    @NamedQuery(name = "EthingParameter.findById", query = "SELECT e FROM EthingParameter e WHERE e.id = :id"),
-    @NamedQuery(name = "EthingParameter.findByName", query = "SELECT e FROM EthingParameter e WHERE e.name = :name"),
-    @NamedQuery(name = "EthingParameter.findByValue", query = "SELECT e FROM EthingParameter e WHERE e.value = :value")})
-public class EthingParameter implements Serializable {
+    @NamedQuery(name = "EthingThingimage.findAll", query = "SELECT e FROM EthingThingimage e"),
+    @NamedQuery(name = "EthingThingimage.findById", query = "SELECT e FROM EthingThingimage e WHERE e.id = :id")})
+public class EthingThingimage implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Column(name = "image", nullable = false)
+    private byte[] image;
     @Id
     @Basic(optional = false)
     @NotNull
-    @SequenceGenerator(name = "parameter_id", sequenceName = "parameter_id", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "parameter_id")
+    @SequenceGenerator(name = "thingimage_id", sequenceName = "thingimage_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "thingimage_id")
     @Column(name = "id", nullable = false)
     private Long id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "name", nullable = false, length = 2147483647)
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "value", nullable = false, length = 2147483647)
-    private String value;
     @JoinColumn(name = "thingid", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private EthingThing thingid;
 
-    public EthingParameter() {
+    public EthingThingimage() {
     }
 
-    public EthingParameter(Long id) {
+    public EthingThingimage(Long id) {
         this.id = id;
     }
 
-    public EthingParameter(Long id, String name, String value) {
+    public EthingThingimage(Long id, byte[] image) {
         this.id = id;
-        this.name = name;
-        this.value = value;
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public Long getId() {
@@ -77,22 +78,6 @@ public class EthingParameter implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     public EthingThing getThingid() {
@@ -113,10 +98,10 @@ public class EthingParameter implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EthingParameter)) {
+        if (!(object instanceof EthingThingimage)) {
             return false;
         }
-        EthingParameter other = (EthingParameter) object;
+        EthingThingimage other = (EthingThingimage) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -125,7 +110,7 @@ public class EthingParameter implements Serializable {
 
     @Override
     public String toString() {
-        return "pl.ething.model.EthingParameter[ id=" + id + " ]";
+        return "pl.ething.model.EthingThingimage[ id=" + id + " ]";
     }
 
 }

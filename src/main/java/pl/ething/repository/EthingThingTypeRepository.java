@@ -5,16 +5,19 @@
  */
 package pl.ething.repository;
 
+import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import pl.ething.model.EthingParameter;
-import pl.ething.model.EthingThing;
+import pl.ething.model.EthingThingtype;
 
 /**
  *
  * @author Koksik
  */
-@RepositoryRestResource(collectionResourceRel = "parameter", path = "parameter", exported = false)
-public interface EthingParameterRepository extends PagingAndSortingRepository<EthingParameter, Long> {
+
+@RepositoryRestResource(collectionResourceRel = "thingtype", path = "thingtype", exported = false)
+public interface EthingThingTypeRepository extends PagingAndSortingRepository<EthingThingtype, Long> {
     
+     List<EthingThingtype> findAll();
+     EthingThingtype findEthingThingtypeByName(String name);
 }

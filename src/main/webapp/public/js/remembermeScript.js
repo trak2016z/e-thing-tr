@@ -1,4 +1,8 @@
-
+/**
+ *
+ * @author prographer
+*/
+//===========================================
 function getMainPage()
 {
     pathArray = location.href.split('/');
@@ -7,11 +11,9 @@ function getMainPage()
     url = protocol + '//' + host;
     return url;
 }
-
-
+//===========================================
 function sendNewPassword(userEmail)
 {
-    
     var result = null;
     $.ajax({
         url: getMainPage()+"rememberPassword",
@@ -30,6 +32,7 @@ function sendNewPassword(userEmail)
     });
     return result;
 }
+//===========================================
 function rememberMe()
 {
     var email = $('#email').val();
@@ -39,7 +42,7 @@ function rememberMe()
     {
         var result = sendNewPassword(email);
         console.log(result);
-        if (result == "message")
+        if (result != "error")
         {
             $('#email').val('');
             $('#remembermeSuccessMessage').modal('show');
@@ -47,6 +50,5 @@ function rememberMe()
         } else
             $('#remembermeErrorMessage').modal('show');
     }
-    //alert(email);
 }
 

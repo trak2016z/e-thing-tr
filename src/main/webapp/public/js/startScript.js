@@ -1,3 +1,8 @@
+/**
+ *
+ * @author prographer
+*/
+//===========================================
 function getMainPage()
 {
     pathArray = location.href.split('/');
@@ -6,10 +11,7 @@ function getMainPage()
     url = protocol + '//' + host;
     return url;
 }
-function searchTextInPageData()
-{
-    
-}
+//===========================================
 function sendUserLoggedData()
 {
     var result = null;
@@ -32,10 +34,37 @@ function sendUserLoggedData()
     });
     return result;
 }
-function search()
+//===========================================
+function checkLoggedUser()
 {
-    $("#searchButton").click(function () {
-        alert($("#searchInput").val());
-        
+    var result = isLogged();
+    if(result == "1")
+    {
+       //panel user
+    }
+    else 
+    {
+        $("#logoutInfo").hide();
+    }
+    //console.log(result);
+}
+function isLogged()
+{
+    var result = null;
+    $.ajax({
+        url: getMainPage() + "/isLogedUser",
+        type: "GET",
+        async: false,
+        dataType: "json",
+        contentType: 'application/json',
+        success: function (response) {
+            //console.log(response);
+            result = response;
+        },
+        error: function (error)
+        {
+            result = error;
+        }
     });
+    return result;
 }

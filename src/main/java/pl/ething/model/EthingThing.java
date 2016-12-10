@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,28 +26,24 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
-
 /**
  *
  * @author Koksik
  */
 @Entity
-@Table(name = "ething_thing", catalog = "d3gdcmhjmsbvoq", schema = "public")
+@Table(name = "ething_thing")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EthingThing.findAll", query = "SELECT e FROM EthingThing e"),
     @NamedQuery(name = "EthingThing.findById", query = "SELECT e FROM EthingThing e WHERE e.id = :id"),
     @NamedQuery(name = "EthingThing.findByIdhash", query = "SELECT e FROM EthingThing e WHERE e.idhash = :idhash"),
     @NamedQuery(name = "EthingThing.findByName", query = "SELECT e FROM EthingThing e WHERE e.name = :name"),
-    @NamedQuery(name = "EthingThing.findByModel", query = "SELECT e FROM EthingThing e WHERE e.model = :model"),
-    @NamedQuery(name = "EthingThing.findByFirm", query = "SELECT e FROM EthingThing e WHERE e.firm = :firm"),
-    @NamedQuery(name = "EthingThing.findByStatus", query = "SELECT e FROM EthingThing e WHERE e.status = :status")})
+    @NamedQuery(name = "EthingThing.findByStatus", query = "SELECT e FROM EthingThing e WHERE e.status = :status"),
+    @NamedQuery(name = "EthingThing.findByAccess", query = "SELECT e FROM EthingThing e WHERE e.access = :access"),
+    @NamedQuery(name = "EthingThing.findByUrl", query = "SELECT e FROM EthingThing e WHERE e.url = :url"),
+    @NamedQuery(name = "EthingThing.findByUrl2", query = "SELECT e FROM EthingThing e WHERE e.url2 = :url2"),
+    @NamedQuery(name = "EthingThing.findByDescription", query = "SELECT e FROM EthingThing e WHERE e.description = :description")})
 public class EthingThing implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
-    private boolean access;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,25 +66,34 @@ public class EthingThing implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2147483647)
-    @Column(name = "model", nullable = false, length = 2147483647)
-    private String model;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(name = "firm", nullable = false, length = 2147483647)
-    private String firm;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
     @Column(name = "status", nullable = false, length = 2147483647)
     private String status;
-    @JoinColumn(name = "userid", referencedColumnName = "id")
-    @ManyToOne
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "access", nullable = false, length = 2147483647)
+    private String access;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2147483647)
+    @Column(name = "url", nullable = false, length = 2147483647)
+    private String url;
+    @Size(max = 2147483647)
+    @Column(name = "url2", length = 2147483647)
+    private String url2;
+    @Size(max = 2147483647)
+    @Column(name = "description", length = 2147483647)
+    private String description;
+    @JoinColumn(name = "userid", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private EthingUser userid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid")
-    private Set<EthingParameter> ethingParameterSet;
-    @OneToMany(mappedBy = "thingid")
+    @JoinColumn(name = "thingtype", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    private EthingThingtype thingtype;
+    @OneToMany(mappedBy = "thingid", fetch = FetchType.EAGER)
     private Set<EthingFeature> ethingFeatureSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid", fetch = FetchType.EAGER)
+    private Set<EthingThingimage> ethingThingimageSet;
 
     public EthingThing() {
     }
@@ -96,13 +102,13 @@ public class EthingThing implements Serializable {
         this.id = id;
     }
 
-    public EthingThing(Long id, String idhash, String name, String model, String firm, String status) {
+    public EthingThing(Long id, String idhash, String name, String status, String access, String url) {
         this.id = id;
         this.idhash = idhash;
         this.name = name;
-        this.model = model;
-        this.firm = firm;
         this.status = status;
+        this.access = access;
+        this.url = url;
     }
 
     public Long getId() {
@@ -129,28 +135,44 @@ public class EthingThing implements Serializable {
         this.name = name;
     }
 
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
-    }
-
-    public String getFirm() {
-        return firm;
-    }
-
-    public void setFirm(String firm) {
-        this.firm = firm;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAccess() {
+        return access;
+    }
+
+    public void setAccess(String access) {
+        this.access = access;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getUrl2() {
+        return url2;
+    }
+
+    public void setUrl2(String url2) {
+        this.url2 = url2;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public EthingUser getUserid() {
@@ -161,13 +183,12 @@ public class EthingThing implements Serializable {
         this.userid = userid;
     }
 
-    @XmlTransient
-    public Set<EthingParameter> getEthingParameterSet() {
-        return ethingParameterSet;
+    public EthingThingtype getThingtype() {
+        return thingtype;
     }
 
-    public void setEthingParameterSet(Set<EthingParameter> ethingParameterSet) {
-        this.ethingParameterSet = ethingParameterSet;
+    public void setThingtype(EthingThingtype thingtype) {
+        this.thingtype = thingtype;
     }
 
     @XmlTransient
@@ -177,6 +198,15 @@ public class EthingThing implements Serializable {
 
     public void setEthingFeatureSet(Set<EthingFeature> ethingFeatureSet) {
         this.ethingFeatureSet = ethingFeatureSet;
+    }
+
+    @XmlTransient
+    public Set<EthingThingimage> getEthingThingimageSet() {
+        return ethingThingimageSet;
+    }
+
+    public void setEthingThingimageSet(Set<EthingThingimage> ethingThingimageSet) {
+        this.ethingThingimageSet = ethingThingimageSet;
     }
 
     @Override
@@ -203,14 +233,5 @@ public class EthingThing implements Serializable {
     public String toString() {
         return "pl.ething.model.EthingThing[ id=" + id + " ]";
     }
-
-    public boolean getAccess() {
-        return access;
-    }
-
-    public void setAccess(boolean access) {
-        this.access = access;
-    }
-
 
 }

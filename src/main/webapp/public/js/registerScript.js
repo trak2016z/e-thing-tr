@@ -1,4 +1,8 @@
-
+/**
+ *
+ * @author prographer
+*/
+//===========================================
 function getMainPage()
 {
     pathArray = location.href.split('/');
@@ -7,6 +11,7 @@ function getMainPage()
     url = protocol + '//' + host;
     return url;
 }
+//===========================================
 function sendUserData(userData)
 {
     var result = null;
@@ -28,6 +33,7 @@ function sendUserData(userData)
     });
     return result;
 }
+//===========================================
 function getObjectUserFromForm(jquery)
 {
     return $(jquery).serializeArray()
@@ -36,6 +42,7 @@ function getObjectUserFromForm(jquery)
                 return a;
             }, {});
 }
+//===========================================
 function checkUserDataFromForm(userData)
 {
     if (userData["password"] && userData["repassword"] && userData["name"] &&
@@ -57,6 +64,7 @@ function checkUserDataFromForm(userData)
         return 0;
     }
 }
+//===========================================
 function checkAgreeTermsAndConditions()
 {
     if ($("#userForm input[name=agreeTermsAndConditions]")[0].checked == false)
@@ -64,20 +72,18 @@ function checkAgreeTermsAndConditions()
     else
         return 1;
 }
+//===========================================
 function registerUser()
 {
     if (checkAgreeTermsAndConditions())
     {
-        //console.log('');
         var userData = getObjectUserFromForm('#userForm');
-        //console.log(userData);
         if (checkUserDataFromForm(userData))
         {
             $('#registerAcceptMessage')
                     .modal({
                         closable: false,
                         onDeny: function () {
-                            //window.alert('Wait not yet!');
                             return false;
                         },
                         onApprove: function () {
@@ -96,5 +102,4 @@ function registerUser()
     } else
         $('#registerAgreeTermsMessage').modal('show');
     
-
 }

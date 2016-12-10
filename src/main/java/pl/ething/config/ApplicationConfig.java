@@ -6,6 +6,10 @@ import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+/**
+ *
+ * @author prographer
+*/
 @Configuration
 public class ApplicationConfig extends RepositoryRestMvcConfiguration {
 

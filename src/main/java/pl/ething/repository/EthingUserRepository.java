@@ -17,8 +17,9 @@ import pl.ething.model.EthingUser;
 @RepositoryRestResource(collectionResourceRel = "user", path = "user", exported = false)
 public interface EthingUserRepository extends PagingAndSortingRepository<EthingUser, Long> {
     
-    EthingUser findEthingUserByName(String name);
+    EthingUser findEthingUserByLogin(String login);
     EthingUser findEthingUserByActivation(String activation);
+    EthingUser findEthingUserByLoginAndActivation(String login,String activation);
     EthingUser findEthingUserByNameAndActivation(String name,String activation);
     EthingUser findEthingUserByEmailAndActivation(String email,String activation);
 }

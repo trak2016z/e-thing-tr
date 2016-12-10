@@ -8,14 +8,15 @@ package pl.ething.model;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -29,10 +30,7 @@ import javax.persistence.SequenceGenerator;
  * @author Koksik
  */
 @Entity
-@Table(name = "ething_user", catalog = "d3gdcmhjmsbvoq", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"email"}),
-    @UniqueConstraint(columnNames = {"name"}),
-    @UniqueConstraint(columnNames = {"login"})})
+@Table(name = "ething_user")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "EthingUser.findAll", query = "SELECT e FROM EthingUser e"),
@@ -49,8 +47,8 @@ public class EthingUser implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @SequenceGenerator(name = "user_id", sequenceName = "user_id" , allocationSize=1,initialValue = 1)
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_id")
+    @SequenceGenerator(name = "user_id", sequenceName = "user_id", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id")
     @Column(name = "id", nullable = false)
     private Long id;
     @Basic(optional = false)
@@ -84,7 +82,7 @@ public class EthingUser implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "activation", nullable = false, length = 2147483647)
     private String activation;
-    @OneToMany(mappedBy = "userid")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid", fetch = FetchType.EAGER)
     private Set<EthingThing> ethingThingSet;
 
     public EthingUser() {

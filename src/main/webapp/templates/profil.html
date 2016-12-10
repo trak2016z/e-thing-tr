@@ -13,9 +13,11 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="../public/css/homeStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
+        <script src="../public/js/startScript.js"></script>
+        <script src="../public/js/searchScript.js"></script>
     </head>
     <body>
-        <div class=" large ui stackable inverted menu">
+        <div class="large ui stackable inverted menu">
             <div class="ui container">
                 <a th:href="${mainPage}" class="header item">
                     <img class="logo" src="../public/img/box.png"/>
@@ -24,38 +26,57 @@ and open the template in the editor.
                 <div class="ui simple dropdown item">
                     Menu <i class="dropdown icon"></i>
                     <div class="menu">
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                        <div class="divider"></div>
-                        <div class="header">Header Item</div>
-                        <div class="item">
-                            <i class="dropdown icon"></i>
-                            Sub Menu
-                            <div class="menu">
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                            </div>
-                        </div>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+                        <a class="item" th:href="${thingaddPage}">Add Thing</a>
+                        <a class="item" th:href="${userthingPage}">My Things</a>
                     </div>
                 </div>
                 <div class="large right ui stackable inverted menu">
                     <div class="item">
                         <div class="ui icon input">
-                            <input placeholder="Search..." type="text"/>
-                            <i class="search link icon"></i>
+                            <input id="searchInput" placeholder="Search..." type="text"/>
+                            <i id="searchButton" class="search link icon"></i>
                         </div>
                     </div>
-                    <a id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
+                    <a  id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
+                    <div id="logoutInfo" class="ui simple dropdown item">
+                        <i class="chevron circle down icon"></i>
+                        <div class="menu">
+                            <a class="item" th:href="${usersettingsPage}">Settings</a>
+                            <a class="item" th:href="${logoutPage}">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="ui main text container">
-            Name: <p class="ui header" th:text="${user.name}"></p>
-            Email: <p class="ui header" th:text="${user.email}"></p>
+            <h1 class="ui header">User profil:</h1>
+            <div class="ui form text segment container">
+                <div class="ui divided items">
+                    <div class="item">
+                        <i class="user icon"></i>
+                        <div class="content">
+                            <a class="middle aligned content header" th:text="${user.name}"></a>
+                        </div>              
+                    </div>
+                    <div class="item">
+                        <i class="mail outline icon"/>
+                        <div class="content">
+                            <a class="middle aligned content header" th:text="${user.email}"></a>
+                        </div>              
+                    </div>
+                    <div class="item">
+                        <i class="empty star icon"></i>
+                        <div class="content">
+                            <a class="middle aligned content header" th:text="${user.role}"></a>
+                        </div>              
+                    </div>
+                </div>
+            </div>
         </div>
-
+        <div>
+            <br></br>
+        </div>
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui stackable inverted divided grid">
@@ -92,4 +113,8 @@ and open the template in the editor.
             </div>
         </div>
     </body>
+    <script>
+        search();
+        checkLoggedUser();
+    </script>
 </html>

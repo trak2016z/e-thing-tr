@@ -13,12 +13,12 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="../public/css/registerStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
-        <script src="../public/js/searchScript.js"></script>
-        <script src="../public/js/registerScript.js"></script>
+        <script src="../public/js/thingeditScript.js"></script>
         <script src="../public/js/startScript.js"></script>
+        <script src="../public/js/searchScript.js"></script>
     </head>
     <body>
-        <div class=" large ui stackable inverted menu">
+        <div class="large ui stackable inverted menu">
             <div class="ui container">
                 <a th:href="${mainPage}" class="header item">
                     <img class="logo" src="../public/img/box.png"/>
@@ -28,67 +28,110 @@ and open the template in the editor.
                     Menu <i class="dropdown icon"></i>
                     <div class="menu">
                         <a class="item" th:href="${thingaddPage}">Add Thing</a>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                        <div class="divider"></div>
-                        <div class="header">Header Item</div>
-                        <div class="item">
-                            <i class="dropdown icon"></i>
-                            Sub Menu
-                            <div class="menu">
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
-                            </div>
-                        </div>
-                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+                        <a class="item" th:href="${userthingPage}">My Things</a>
                     </div>
                 </div>
                 <div class="large right ui stackable inverted menu">
                     <div class="item">
                         <div class="ui icon input">
-                            <input placeholder="Search..." type="text"/>
-                            <i class="search link icon"></i>
+                            <input id="searchInput" placeholder="Search..." type="text"/>
+                            <i id="searchButton" class="search link icon"></i>
                         </div>
                     </div>
-                    <a id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
+                    <a  id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
+                    <div id="logoutInfo" class="ui simple dropdown item">
+                        <i class="chevron circle down icon"></i>
+                        <div class="menu">
+                            <a class="item" th:href="${usersettingsPage}">Settings</a>
+                            <a class="item" th:href="${logoutPage}">Logout</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="ui main text container">
-            <h1 class="ui header">Register new user</h1>
+            <h1 class="ui header">Change your thing</h1>
             <p>Please write your data to form</p>
-            <form id="userForm" class="ui form">
+            <form id="thingForm" class="ui form segment">
                 <div class="field">
-                    <label>Login:</label>
-                    <input type="text" name="login" placeholder="login"/>
+                    <label>Name:</label>
+                    <input type="text" name="name" placeholder="name" th:value="${thing.name}"/>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Status:</label>
+                        <div th:switch="${thing.status}">
+                            <div th:case="'New'">
+                                <select id="thingStatus" name="status" class="ui fluid search dropdown" >
+                                    <option selected="true" value="1">New</option>
+                                    <option value="2">Used</option>
+                                </select>
+                            </div> 
+                            <div th:case="'Used'">
+                                <select id="thingStatus" name="status" class="ui fluid search dropdown" >
+                                    <option value="1">New</option>
+                                    <option selected="true" value="2">Used</option>
+                                </select>  
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Thing type:</label>
+                        <select id="thingType" name="status" class="ui dropdown" >
+                            <option th:each="thingtypes : ${thingtype}" th:value="${thingtypes.id}" th:text="${thingtypes.name}" ></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Description Url:</label>
+                        <input th:value="${thing.url}" type="text" name="url" placeholder="url"/>
+                    </div>
+                    <div class="field">
+                        <label>Description Url(alternative):</label>
+                        <input th:value="${thing.url2}" type="text" name="url2" placeholder="url"/>
+                    </div>
+                </div>
+                <div id="featuresForm" class="ui form segment">
+                    <label>Features:</label>
+                    <div class="ui green message">Positive
+                        <i class="add square icon green large" onclick="addPositiveFeature()"></i>
+                        <i class="minus square icon green large" onclick="deleteLastPositiveFeature()"></i>
+                        <div id="positiveContener" >
+
+                        </div>
+                    </div>
+                    <div class="ui grey message">Neutral
+                        <i class="add square icon grey large" onclick="addNeutralFeature()"></i>
+                        <i class="minus square icon grey large" onclick="deleteLastNeutralFeature()"></i>
+                        <div id="neutralContener" >
+
+                        </div>
+                    </div>
+                    <div class="ui red message">Negative
+                        <i class="add square icon red large" onclick="addNegativeFeature()"></i>
+                        <i class="minus square icon red large" onclick="deleteLastNegativeFeature()"></i>
+                        <div id="negativeContener" >
+
+                        </div>
+                    </div>
                 </div>
                 <div class="field">
-                    <label>Nick:</label>
-                    <input type="text" name="name" placeholder="name"/>
-                </div>
-                <div class="field">
-                    <label>Email:</label>
-                    <input type="text" name="email" placeholder="email"/>
-                </div>
-                <div class="field">
-                    <label>Password:</label>
-                    <input type="password" name="password" placeholder="password"/>
-                </div>
-                <div class="field">
-                    <label>Re-Password:</label>
-                    <input type="password" name="repassword" placeholder="repassword"/>
+                    <label>Description:</label>
+                    <textarea th:text="${thing.description}" type="text" name="description" placeholder="description"/>
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
-                        <input type="checkbox" name="agreeTermsAndConditions"/>
-                        <label>I agree to the Terms and Conditions</label>
+                        <input  id="access" type="checkbox" name="access"/>
+                        <label> Public access - users can search your thing.</label>
                     </div>
                 </div>
-                <button onclick="registerUser()" class="ui button" type="button">Submit</button>
+                <button onclick="editThing()" class="ui button" type="button">Submit</button>
             </form>
         </div>
         <div id="registerMessages">
-            <div class="ui modal" id="registerAcceptMessage">
+            <!--<div class="ui modal" id="registerAcceptMessage">
                 <div class="header">
                     Register Message
                 </div>
@@ -106,16 +149,16 @@ and open the template in the editor.
                         <i class="checkmark icon"></i>
                     </div>
                 </div>
-
-            </div>
-            <div class="ui modal" id="registerAgreeTermsMessage">
+    
+            </div>-->
+            <div class="ui modal" id="newThingMessage">
                 <i class="close icon"></i>
                 <div class="header">
-                    Register Message
+                    Thing Add Message
                 </div>
                 <div class="image content">
                     <div class="description">
-                        <div class="ui header">Please accept page terms and conditions.</div>
+                        <div class="ui header">A new thing.</div>
                     </div>
                 </div>
                 <div class="actions">
@@ -125,10 +168,10 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <div class="ui modal" id="registerDataErrorMessage">
+            <div class="ui modal" id="thingDataErrorMessage">
                 <i class="close icon"></i>
                 <div class="header">
-                    Register Message
+                    Thing Add Message
                 </div>
                 <div class="image content">
                     <div class="description">
@@ -142,7 +185,7 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <div class="ui modal" id="registerSuccessMessage">
+            <!--<div class="ui modal" id="registerSuccessMessage">
                 <i class="close icon"></i>
                 <div class="header">
                     Register Message
@@ -158,7 +201,7 @@ and open the template in the editor.
                         <i class="checkmark icon"></i>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div> 
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">

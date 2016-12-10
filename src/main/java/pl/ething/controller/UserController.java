@@ -1,24 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pl.ething.controller;
 
-import static com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Int;
 import java.security.Principal;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.ething.config.ApplicationMail;
 import pl.ething.model.EthingUser;
@@ -26,7 +17,7 @@ import pl.ething.repository.EthingUserRepository;
 
 /**
  *
- * @author Koksik
+ * @author prographer
  */
 @org.springframework.stereotype.Controller
 
@@ -49,10 +40,41 @@ public class UserController {
             user.setPassword(hashedPassword);
             this.ethingUserRepository.save(user);
             senderMail.sendEmailRememberMeUser(user, newPassword + "");
-
-            //senderMail.sendEmailRememberMeUser(user, newPassword+"");
             return "message";
         } else {
+            return "error";
+        }
+    }
+
+    @RequestMapping(value = "/editUser", method = RequestMethod.POST)
+    public @ResponseBody
+    String editUser(HttpServletRequest request, @RequestBody EthingUser ethingUser, Model model, Principal principal) {
+        try {
+            if (ethingUser.getPassword().equals("") && !ethingUser.getName().equals("")) {
+                EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
+                user.setName(ethingUser.getName());
+                //user.setPassword(ethingUser.getPassword());
+                this.ethingUserRepository.save(user);
+                return "message";
+            } else if (!ethingUser.getPassword().equals("") && ethingUser.getName().equals("")) {
+                EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
+                PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                String hashedPassword = passwordEncoder.encode(ethingUser.getPassword());
+                user.setPassword(hashedPassword);
+                //user.setName(ethingUser.getName());
+                this.ethingUserRepository.save(user);
+                return "message";
+            } else {
+                EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
+                user.setName(ethingUser.getName());
+                PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                String hashedPassword = passwordEncoder.encode(ethingUser.getPassword());
+                user.setPassword(hashedPassword);
+                this.ethingUserRepository.save(user);
+                return "message";
+            }
+        } catch (Exception e) {
+
             return "error";
         }
     }
@@ -85,16 +107,13 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/getLogedUser", method = RequestMethod.GET)
+    @RequestMapping(value = "/isLogedUser", method = RequestMethod.GET)
     public @ResponseBody
-    EthingUser currentUserName(Principal principal) {
+    String isLogedUser(Principal principal) {
         if (principal != null) {
-            EthingUser user = ethingUserRepository.findEthingUserByName(principal.getName());
-            user.setId(Long.MIN_VALUE);
-            user.setPassword("");
-            return user;
+            return "1";
         } else {
-            return null;
+            return "0";
         }
     }
 

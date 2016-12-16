@@ -16,7 +16,7 @@ function sendNewPassword(userEmail)
 {
     var result = null;
     $.ajax({
-        url: getMainPage()+"/rememberPassword",
+        url: getMainPage()+"rememberPassword",
         type: "PUT",
         data: userEmail,
         async: false,
@@ -41,7 +41,7 @@ function rememberMe()
     else
     {
         var result = sendNewPassword(email);
-        //console.log(result);
+        console.log(result);
         if (result != "error")
         {
             $('#email').val('');

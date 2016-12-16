@@ -144,6 +144,7 @@ public class MainController {
         for (Iterator<EthingThing> iterator = things.iterator(); iterator.hasNext();) {
             EthingThing next = iterator.next();
             if (next.getName().contains(text)) {
+                next.setIdhash(mainPage + THING_HTML + next.getIdhash());
                 searchThings.add(next);
             }
         }

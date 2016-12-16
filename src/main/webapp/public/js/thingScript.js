@@ -38,12 +38,7 @@ function deleteThing()
     $('#deleteThingAcceptMessage')
             .modal({
                 closable: false,
-                onDeny: function () {
-                    return false;
-                },
                 onApprove: function () {
-                    
-                    
                     data = window.location.href.split('/')[window.location.href.split('/').length - 1];
                     console.log(data);
                     var result = sendThingData(data);

@@ -83,9 +83,6 @@ function registerUser()
             $('#registerAcceptMessage')
                     .modal({
                         closable: false,
-                        onDeny: function () {
-                            return false;
-                        },
                         onApprove: function () {
                             delete userData["repassword"];
                             var result = sendUserData(userData);

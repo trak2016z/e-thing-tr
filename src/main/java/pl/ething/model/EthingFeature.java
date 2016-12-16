@@ -60,7 +60,7 @@ public class EthingFeature implements Serializable {
     @Column(name = "effect", nullable = false, length = 2147483647)
     private String effect;
     @JoinColumn(name = "thingid", referencedColumnName = "id")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private EthingThing thingid;
 
     public EthingFeature() {

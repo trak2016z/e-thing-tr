@@ -82,7 +82,7 @@ public class EthingUser implements Serializable {
     @Size(min = 1, max = 2147483647)
     @Column(name = "activation", nullable = false, length = 2147483647)
     private String activation;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userid", fetch = FetchType.EAGER)
+    @OneToMany(targetEntity=EthingThing.class ,cascade = CascadeType.ALL, mappedBy = "userid", fetch = FetchType.LAZY)
     private Set<EthingThing> ethingThingSet;
 
     public EthingUser() {

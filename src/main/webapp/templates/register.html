@@ -13,12 +13,12 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="../public/css/registerStyle.css"/>
         <script src="../public/lib/jquery-3.1.1.min.js"></script>
         <script src="../public/lib/semantic.min.js"></script>
-        <script src="../public/js/startScript.js"></script>
         <script src="../public/js/searchScript.js"></script>
         <script src="../public/js/registerScript.js"></script>
+        <script src="../public/js/startScript.js"></script>
     </head>
     <body>
-        <div class="large ui stackable inverted menu">
+        <div class=" large ui stackable inverted menu">
             <div class="ui container">
                 <a th:href="${mainPage}" class="header item">
                     <img class="logo" src="../public/img/box.png"/>
@@ -28,63 +28,64 @@ and open the template in the editor.
                     Menu <i class="dropdown icon"></i>
                     <div class="menu">
                         <a class="item" th:href="${thingaddPage}">Add Thing</a>
-                        <a class="item" th:href="${userthingPage}">My Things</a>
+                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+                        <div class="divider"></div>
+                        <div class="header">Header Item</div>
+                        <div class="item">
+                            <i class="dropdown icon"></i>
+                            Sub Menu
+                            <div class="menu">
+                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+                                <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
+                            </div>
+                        </div>
+                        <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Link Item</a>
                     </div>
                 </div>
                 <div class="large right ui stackable inverted menu">
                     <div class="item">
                         <div class="ui icon input">
-                            <input id="searchInput" placeholder="Search..." type="text"/>
-                            <i id="searchButton" class="search link icon"></i>
+                            <input placeholder="Search..." type="text"/>
+                            <i class="search link icon"></i>
                         </div>
                     </div>
-                    <a  id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}">
-                    </a>
-                    <div id="logoutInfo" class="ui simple dropdown item">
-                        <i class="chevron circle down icon"></i>
-                        <div class="menu">
-                            <a class="item" th:href="${usersettingsPage}">Settings</a>
-                            <a class="item" th:href="${logoutPage}">Logout</a>
-                        </div>
-                    </div>
+                    <a id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
                 </div>
             </div>
         </div>
 
-        <div class="ui text container">
-            <h1 class="ui header">Register new user:</h1>
+        <div class="ui main text container">
+            <h1 class="ui header">Register new user</h1>
             <p>Please write your data to form</p>
-            <div class="ui text segment container">
-                <form id="userForm" class="ui form">
-                    <div class="field">
-                        <label> <i class="user icon"></i> Login:</label>
-                        <input type="text" name="login" placeholder="login"/>
+            <form id="userForm" class="ui form">
+                <div class="field">
+                    <label>Login:</label>
+                    <input type="text" name="login" placeholder="login"/>
+                </div>
+                <div class="field">
+                    <label>Nick:</label>
+                    <input type="text" name="name" placeholder="name"/>
+                </div>
+                <div class="field">
+                    <label>Email:</label>
+                    <input type="text" name="email" placeholder="email"/>
+                </div>
+                <div class="field">
+                    <label>Password:</label>
+                    <input type="password" name="password" placeholder="password"/>
+                </div>
+                <div class="field">
+                    <label>Re-Password:</label>
+                    <input type="password" name="repassword" placeholder="repassword"/>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" name="agreeTermsAndConditions"/>
+                        <label>I agree to the Terms and Conditions</label>
                     </div>
-                    <div class="field">
-                        <label> <i class="child icon"></i> Nick:</label>
-                        <input type="text" name="name" placeholder="name"/>
-                    </div>
-                    <div class="field">
-                        <label> <i class="mail outline icon"/> Email:</label>
-                        <input type="text" name="email" placeholder="email"/>
-                    </div>
-                    <div class="field">
-                        <label> <i class="protect icon"></i> Password:</label>
-                        <input type="password" name="password" placeholder="password"/>
-                    </div>
-                    <div class="field">
-                        <label>Re-Password:</label>
-                        <input type="password" name="repassword" placeholder="repassword"/>
-                    </div>
-                    <div class="field">
-                        <div class="ui checkbox">
-                            <input type="checkbox" name="agreeTermsAndConditions"/>
-                            <label>I agree to the Terms and Conditions</label>
-                        </div>
-                    </div>
-                    <button onclick="registerUser()" class="ui button" type="button">Submit</button>
-                </form>
-            </div>
+                </div>
+                <button onclick="registerUser()" class="ui button" type="button">Submit</button>
+            </form>
         </div>
         <div id="registerMessages">
             <div class="ui modal" id="registerAcceptMessage">
@@ -162,16 +163,45 @@ and open the template in the editor.
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui stackable inverted divided grid">
-                    <div class=" wide column">
-                        <h4 class="ui inverted header">E-thing information</h4>
-                        <p>Here you can find more information</p>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 1</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 2</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 3</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="seven wide column">
+                        <h4 class="ui inverted header">Footer Header</h4>
+                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
                     </div>
                 </div>
                 <div class="ui inverted section divider"></div>
+                <img src="./Fixed Menu Example - Semantic_files/logo.png" class="ui centered mini image"/>
                 <div class="ui horizontal inverted small divided link list">
-                    <a class="item" >Contact Us</a>
-                    <a class="item" >Terms and Conditions</a>
-                    <a class="item" >Privacy Policy</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Site Map</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Contact Us</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Terms and Conditions</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Privacy Policy</a>
                 </div>
             </div>
         </div>

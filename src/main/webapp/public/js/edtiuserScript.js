@@ -34,6 +34,15 @@ function sendUserData(userData)
     return result;
 }
 //===========================================
+function getObjectUserFromForm(jquery)
+{
+    return $(jquery).serializeArray()
+            .reduce(function (a, x) {
+                a[x.name] = x.value;
+                return a;
+            }, {});
+}
+//===========================================
 function checkUserDataFromForm(userData)
 {
     if ((userData["password"] && userData["repassword"]) || userData["name"])
@@ -55,15 +64,6 @@ function checkUserDataFromForm(userData)
     }
 }
 //===========================================
-function getObjectUserFromForm(jquery)
-{
-    return $(jquery).serializeArray()
-            .reduce(function (a, x) {
-                a[x.name] = x.value;
-                return a;
-            }, {});
-}
-//===========================================
 function editUser()
 {
 
@@ -74,10 +74,10 @@ function editUser()
                 .modal({
                     closable: false,
                     /*onDeny: function () {
-                     $('#editUserAcceptMessage').hide();
-                     //alert('');
-                     return false;
-                     },*/
+                        $('#editUserAcceptMessage').hide();
+                        //alert('');
+                        return false;
+                    },*/
                     onApprove: function () {
                         delete userData["repassword"];
                         var result = sendUserData(userData);
@@ -87,7 +87,7 @@ function editUser()
                         {
                             document.getElementById("userForm").reset();
                             $('#editUserSuccessMessage').modal('show');
-                            location.reload();
+                            location.reload(); 
                         }
                     }
                 }).modal('show');

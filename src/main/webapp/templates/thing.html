@@ -15,7 +15,6 @@ and open the template in the editor.
         <script src="../public/lib/semantic.min.js"></script>
         <script src="../public/js/startScript.js"></script>
         <script src="../public/js/searchScript.js"></script>
-        <script src="../public/js/thingScript.js"></script>
     </head>
     <body>
         <div class="large ui stackable inverted menu">
@@ -38,8 +37,7 @@ and open the template in the editor.
                             <i id="searchButton" class="search link icon"></i>
                         </div>
                     </div>
-                    <a  id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}">
-                    </a>
+                    <a  id="logedInfo" class="item" th:href="${loginPage}" th:text="${loginPageText}"></a>
                     <div id="logoutInfo" class="ui simple dropdown item">
                         <i class="chevron circle down icon"></i>
                         <div class="menu">
@@ -52,80 +50,56 @@ and open the template in the editor.
         </div>
 
         <div class="ui form text segment container">
-            <div class="two fields"> 
-                <div class="field">
-                    <label><i class="dropbox icon"></i> Name:</label><i class="ui" th:text="${thing.name}"></i>
-                    <label><i class="archive icon"></i> IDHash:</label> <i class="ui" th:text="${thing.idhash}"></i>
-                </div>
-                <div class="field">
-                    <label><i class="heart icon"></i>Status:</label> <i class="ui" th:text="${thing.status}"></i>
-                    <label><i class="trophy icon"></i>Thingtype:</label> <i class="ui" th:text="${thing.thingtype.name}"></i>
-                </div>
-            </div>
-            <div class="two fields"> 
-                <div class="field">
-                    <label><i class="newspaper icon"></i> Documentation urls:</label>
-                    <a th:href="${thing.url}">
-                        <div class="ui animated button" tabindex="0">
-                            <div class="visible content">Url</div>
-                            <div class="hidden content">
-                                <i class="right arrow icon"></i>
-                            </div>
+            Name: <p class="ui header" th:text="${thing.name}"></p>
+            IDHash: <p class="ui header" th:text="${thing.idhash}"></p>
+            Status: <p class="ui header" th:text="${thing.status}"></p>
+            Thingtype: <p class="ui header" th:text="${thing.thingtype.name}"></p>
+            <div class="field">
+                <label>Documentation urls:</label>
+                <a th:href="${thing.url}">
+                    <div class="ui animated button" tabindex="0">
+                        <div class="visible content">Url</div>
+                        <div class="hidden content">
+                            <i class="right arrow icon"></i>
                         </div>
-                    </a>
-                    <a th:if="${thing.url2}!=''" th:href="${thing.url2}">
-                        <div class="ui animated button" tabindex="0">
-                            <div class="visible content">Url(alt)</div>
-                            <div class="hidden content">
-                                <i class="right arrow icon"></i>
-                            </div>
+                    </div>
+                </a>
+                <a th:href="${thing.url2}">
+                    <div class="ui animated button" tabindex="0">
+                        <div class="visible content">Url(alt)</div>
+                        <div class="hidden content">
+                            <i class="right arrow icon"></i>
                         </div>
-                    </a>
-                </div>    
+                    </div>
+                </a>
             </div>
             <div class="field">
-                <label><i class="empty star icon"></i>Features:</label>
-                <div class="ui green message"><i class="thumbs up icon"></i>Positive:
-                    <div id="positiveContener" >
-                        <div th:each="feature : ${featuresPos}" class="inline fields">
-                            <i class="minus icon"></i>
-                            <div th:text="${feature.name}"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui grey message"><i class="info icon"></i>Neutral:
-                    <div id="neutralContener" >
-                        <div th:each="feature : ${featuresNeu}" class="inline fields"><i class="minus icon"></i>
-                            <div th:text="${feature.name}"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ui red message"><i class="thumbs down icon"></i>Negative:
-                    <div id="negativeContener" >
-                        <div th:each="feature : ${featuresNeg}" class="inline fields"><i class="minus icon"></i>
-                            <div th:text="${feature.name}"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="field">
-                <label><i class="align left icon"></i>Description:</label>
+                <label>Description:</label>
                 <textarea style="resize: none;" readonly="true" type="text" th:text="${thing.description}" name="description" placeholder="description"/>
-            </div>  
-            <div th:if="${thingaeditPage}!='null'">
-                <a  class="ui button blue" th:href="${thingaeditPage}">Edit <i class="configure icon"></i></a>
-                <a onclick="deleteThing()" class="ui button red">Delete <i class="trash outline icon"></i></a>
+            </div>       
+            Features: <p th:each="feature : ${features}" th:text="${feature.name}"></p>
+            <div>
+                <form th:action="${thingaeditPage}">
+                    <button class="ui button blue">
+                        Edit
+                    </button>
+                </form>
+                <form th:action="${thingdeletePage}">
+                    <button class="ui button red">
+                        Delete
+                    </button>
+                </form>
             </div>
         </div>
 
-        <div id="thingMessages">
-            <div class="ui modal" id="deleteThingAcceptMessage">
+        <div id="registerMessages">
+            <div class="ui modal" id="registerAcceptMessage">
                 <div class="header">
-                    Delete Thing Message
+                    Register Message
                 </div>
                 <div class="image content">
                     <div class="description">
-                        <div class="ui header">Do you want delete thing?</div>
+                        <div class="ui header">Do you want register?</div>
                     </div>
                 </div>
                 <div class="actions">
@@ -139,20 +113,100 @@ and open the template in the editor.
                 </div>
 
             </div>
+            <div class="ui modal" id="registerAgreeTermsMessage">
+                <i class="close icon"></i>
+                <div class="header">
+                    Register Message
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui header">Please accept page terms and conditions.</div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal" id="registerDataErrorMessage">
+                <i class="close icon"></i>
+                <div class="header">
+                    Register Message
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui header">Error data in form</div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="ui modal" id="registerSuccessMessage">
+                <i class="close icon"></i>
+                <div class="header">
+                    Register Message
+                </div>
+                <div class="image content">
+                    <div class="description">
+                        <div class="ui header">Register complete, please check your email to activity.</div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui ok right labeled icon button">
+                        Ok, thanks
+                        <i class="checkmark icon"></i>
+                    </div>
+                </div>
+            </div>
         </div> 
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui stackable inverted divided grid">
-                    <div class=" wide column">
-                        <h4 class="ui inverted header">E-thing information</h4>
-                        <p>Here you can find more information</p>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 1</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 2</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="three wide column">
+                        <h4 class="ui inverted header">Group 3</h4>
+                        <div class="ui inverted link list">
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
+                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
+                        </div>
+                    </div>
+                    <div class="seven wide column">
+                        <h4 class="ui inverted header">Footer Header</h4>
+                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
                     </div>
                 </div>
                 <div class="ui inverted section divider"></div>
+                <img src="./Fixed Menu Example - Semantic_files/logo.png" class="ui centered mini image"/>
                 <div class="ui horizontal inverted small divided link list">
-                    <a class="item" >Contact Us</a>
-                    <a class="item" >Terms and Conditions</a>
-                    <a class="item" >Privacy Policy</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Site Map</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Contact Us</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Terms and Conditions</a>
+                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Privacy Policy</a>
                 </div>
             </div>
         </div>

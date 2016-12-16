@@ -85,14 +85,14 @@ public class EthingThing implements Serializable {
     @Column(name = "description", length = 2147483647)
     private String description;
     @JoinColumn(name = "userid", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private EthingUser userid;
     @JoinColumn(name = "thingtype", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private EthingThingtype thingtype;
-    @OneToMany(mappedBy = "thingid", fetch = FetchType.LAZY )
+    @OneToMany(mappedBy = "thingid", fetch = FetchType.EAGER)
     private Set<EthingFeature> ethingFeatureSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "thingid", fetch = FetchType.EAGER)
     private Set<EthingThingimage> ethingThingimageSet;
 
     public EthingThing() {

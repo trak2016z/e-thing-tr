@@ -5,7 +5,6 @@
  */
 package pl.ething.repository;
 
-import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import pl.ething.model.EthingThing;
@@ -19,6 +18,4 @@ import pl.ething.model.EthingUser;
 public interface EthingThingRepository extends PagingAndSortingRepository<EthingThing, Long> {
 
     EthingThing findEthingThingByIdhash(String idhash);
-    List<EthingThing> findEthingThingByAccess(String access);
-    List<EthingThing> findEthingThingByUseridAndAccess(EthingUser ethingUser, String access);
 }

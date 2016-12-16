@@ -53,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/test",
                         "/error",
                         "/home",
-                        "/activation/**", "/thing/**",
+                        "/activation/**", 
                         "/register","/public/**",
                         "/registerUser",
                         "/rememberPassword",
@@ -64,7 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/", true)
+                .loginPage("/login").defaultSuccessUrl("/")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout")

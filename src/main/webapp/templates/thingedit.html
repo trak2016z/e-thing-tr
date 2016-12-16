@@ -79,7 +79,9 @@ and open the template in the editor.
                     <div class="field">
                         <label>Thing type:</label>
                         <select id="thingType" name="status" class="ui dropdown" >
-                            <option th:each="thingtypes : ${thingtype}" th:value="${thingtypes.id}" th:text="${thingtypes.name}" ></option>
+                            <div th:each="thingtypes : ${thingtype}">
+                                <option th:selected="(${thingtypes.id} == ${thing.thingtype.id})" th:value="${thingtypes.id}" th:text="${thingtypes.name}" ></option>
+                            </div>
                         </select>
                     </div>
                 </div>
@@ -99,21 +101,27 @@ and open the template in the editor.
                         <i class="add square icon green large" onclick="addPositiveFeature()"></i>
                         <i class="minus square icon green large" onclick="deleteLastPositiveFeature()"></i>
                         <div id="positiveContener" >
-
+                            <div th:each="featurePos : ${featuresPos}" class="inline fields"><i class="minus icon">
+                                </i><input class="green" th:value=" ${featurePos.name}" type="text" name="nameFeature" placeholder="name"/>
+                            </div>            
                         </div>
                     </div>
                     <div class="ui grey message">Neutral
                         <i class="add square icon grey large" onclick="addNeutralFeature()"></i>
                         <i class="minus square icon grey large" onclick="deleteLastNeutralFeature()"></i>
                         <div id="neutralContener" >
-
+                            <div th:each="featureNeu : ${featuresNeu}" class="inline fields"><i class="minus icon">
+                                </i><input class="green" th:value=" ${featureNeu.name}" type="text" name="nameFeature" placeholder="name"/>
+                            </div> 
                         </div>
                     </div>
                     <div class="ui red message">Negative
                         <i class="add square icon red large" onclick="addNegativeFeature()"></i>
                         <i class="minus square icon red large" onclick="deleteLastNegativeFeature()"></i>
                         <div id="negativeContener" >
-
+                            <div th:each="featureNeg : ${featuresNeg}" class="inline fields"><i class="minus icon">
+                                </i><input class="green" th:value="${featureNeg.name}" type="text" name="nameFeature" placeholder="name"/>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -122,43 +130,28 @@ and open the template in the editor.
                     <textarea th:text="${thing.description}" type="text" name="description" placeholder="description"/>
                 </div>
                 <div class="field">
-                    <div class="ui checkbox">
+                    <div class="ui checkbox" th:if="${thing.access}=='on'" >
+                        <input  id="access" type="checkbox" name="access" checked="true"/>
+                        <label> Private access - users can search your thing.</label>
+                    </div>
+                    <div class="ui checkbox" th:if="${thing.access}=='off'" >
                         <input  id="access" type="checkbox" name="access"/>
-                        <label> Public access - users can search your thing.</label>
+                        <label> Private access - users can't search your thing.</label>
                     </div>
                 </div>
-                <button onclick="editThing()" class="ui button" type="button">Submit</button>
+                <button onclick="editThing()" class="ui button" type="button">Save <i class="save icon"></i></button>
             </form>
         </div>
         <div id="registerMessages">
-            <!--<div class="ui modal" id="registerAcceptMessage">
-                <div class="header">
-                    Register Message
-                </div>
-                <div class="image content">
-                    <div class="description">
-                        <div class="ui header">Do you want register?</div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui negative deny button">
-                        No, thanks
-                    </div>
-                    <div class="ui positive right labeled icon button">
-                        Yes
-                        <i class="checkmark icon"></i>
-                    </div>
-                </div>
-    
-            </div>-->
+
             <div class="ui modal" id="newThingMessage">
                 <i class="close icon"></i>
                 <div class="header">
-                    Thing Add Message
+                    Thing Edit Message
                 </div>
                 <div class="image content">
                     <div class="description">
-                        <div class="ui header">A new thing.</div>
+                        <div class="ui header">A thing edit.</div>
                     </div>
                 </div>
                 <div class="actions">
@@ -171,7 +164,7 @@ and open the template in the editor.
             <div class="ui modal" id="thingDataErrorMessage">
                 <i class="close icon"></i>
                 <div class="header">
-                    Thing Add Message
+                    Thing Edit Message
                 </div>
                 <div class="image content">
                     <div class="description">
@@ -185,66 +178,20 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
-            <!--<div class="ui modal" id="registerSuccessMessage">
-                <i class="close icon"></i>
-                <div class="header">
-                    Register Message
-                </div>
-                <div class="image content">
-                    <div class="description">
-                        <div class="ui header">Register complete, please check your email to activity.</div>
-                    </div>
-                </div>
-                <div class="actions">
-                    <div class="ui ok right labeled icon button">
-                        Ok, thanks
-                        <i class="checkmark icon"></i>
-                    </div>
-                </div>
-            </div>-->
         </div> 
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui stackable inverted divided grid">
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Group 1</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Group 2</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Group 3</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="seven wide column">
-                        <h4 class="ui inverted header">Footer Header</h4>
-                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                    <div class=" wide column">
+                        <h4 class="ui inverted header">E-thing information</h4>
+                        <p>Here you can find more information</p>
                     </div>
                 </div>
                 <div class="ui inverted section divider"></div>
-                <img src="./Fixed Menu Example - Semantic_files/logo.png" class="ui centered mini image"/>
                 <div class="ui horizontal inverted small divided link list">
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Site Map</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Contact Us</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Terms and Conditions</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Privacy Policy</a>
+                    <a class="item" >Contact Us</a>
+                    <a class="item" >Terms and Conditions</a>
+                    <a class="item" >Privacy Policy</a>
                 </div>
             </div>
         </div>

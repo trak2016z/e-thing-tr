@@ -44,58 +44,83 @@ public class MainController {
     @Autowired
     EthingThingTypeRepository ethingThingTypeRepository;
 
-    @RequestMapping("/")
-    public String homePage(HttpServletRequest request, Model model, Principal principal) {
+    private String getMainPage(int postfixLength, HttpServletRequest request) {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
-        if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
-        } else {
-            EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+        for (int i = 0; i < postfixLength - 1; i++) {
+            mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
         }
+        return mainPage;
+    }
+
+    private int publicModelAttribut(Model model, String mainPage) {
         model.addAttribute("mainPage", mainPage);
         model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
+        return 0;
+    }
+
+    private int noLoginModelAttribut(Model model, String mainPage) {
+        model.addAttribute("loginPage", mainPage + LOGIN_HTML);
+        model.addAttribute("loginPageText", "Log-in");
+        model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+        return 0;
+    }
+
+    private int loginModelAttribut(Model model, String mainPage, Principal principal) {
+        EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
+        user.setId(Long.MIN_VALUE);
+        user.setPassword("");
+        model.addAttribute("user", user);
+        model.addAttribute("loginPageText", user.getName());
+        model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
+        model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
+        model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
+        model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+        return 0;
+    }
+
+    @RequestMapping("/")
+    public String homePage(HttpServletRequest request, Model model, Principal principal) {
+        String mainPage = getMainPage(1, request);
+        publicModelAttribut(model, mainPage);
+        if (principal == null) {
+            noLoginModelAttribut(model, mainPage);
+        } else {
+            loginModelAttribut(model, mainPage, principal);
+        }
         return "home";
     }
 
     @RequestMapping(value = "/things/{name}", method = RequestMethod.GET)
     public String userThingsPage(HttpServletRequest request, @PathVariable("name") String userName, Model model, Principal principal) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-        mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
+        String mainPage = getMainPage(2, request);
 
         if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+            noLoginModelAttribut(model, mainPage);
         } else {
+            loginModelAttribut(model, mainPage, principal);
             EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            Set<EthingThing> userThings = user.getEthingThingSet();
-            List<EthingThing> listUserThings = new ArrayList<EthingThing>(userThings);
-            for (Iterator<EthingThing> iterator = listUserThings.iterator(); iterator.hasNext();) {
-                EthingThing next = iterator.next();
-                next.setIdhash(mainPage + THING_HTML + next.getIdhash());
+            if (user.getName().equals(userName)) {
+                List<EthingThing> listUserThings = new ArrayList<EthingThing>(user.getEthingThingSet());
+                for (EthingThing next : listUserThings) {
+                    next.setIdhash(mainPage + THING_HTML + next.getIdhash());
+                }
+                model.addAttribute("userThings", listUserThings);
+            } else {
+                user = ethingUserRepository.findEthingUserByNameAndActivation(userName, "1");
+                List<EthingThing> listUnlogedUserThings = new ArrayList<EthingThing>(ethingThingRepository.
+                        findEthingThingByUseridAndAccess(user, "on"));
+                
+                for (Iterator<EthingThing> iterator = listUnlogedUserThings.iterator(); iterator.hasNext();) {
+                    EthingThing next = iterator.next();
+                    next.setIdhash(mainPage + THING_HTML + next.getIdhash());
+                }
+                model.addAttribute("userThings", listUnlogedUserThings);
             }
-            model.addAttribute("userThings", listUserThings);
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
         }
-        model.addAttribute("mainPage", mainPage);
-        model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
+        publicModelAttribut(model, mainPage);
 
         return "userthings";
     }
@@ -105,8 +130,25 @@ public class MainController {
         String mainPage = new String(request.getRequestURL().
                 toString().substring(0, request.getRequestURL().
                         toString().lastIndexOf("/")));
+        mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
         model.addAttribute("mainPage", mainPage);
-
+        if (principal == null) {
+            noLoginModelAttribut(model, mainPage);
+        } else {
+            loginModelAttribut(model, mainPage, principal);
+        }
+        publicModelAttribut(model, mainPage);
+        //
+        List<EthingThing> things = ethingThingRepository.findEthingThingByAccess("off");
+        List<EthingThing> searchThings = new ArrayList<>();
+        for (Iterator<EthingThing> iterator = things.iterator(); iterator.hasNext();) {
+            EthingThing next = iterator.next();
+            if (next.getName().contains(text)) {
+                searchThings.add(next);
+            }
+        }
+        model.addAttribute("searchThingsNumber", searchThings.size());
+        model.addAttribute("searchThings", searchThings);
         return "mainsearch";
     }
 
@@ -116,27 +158,14 @@ public class MainController {
         if (profilUser == null) {
             return "error";
         } else {
-            String mainPage = new String(request.getRequestURL().
-                    toString().substring(0, request.getRequestURL().
-                            toString().lastIndexOf("/")));
-            mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
-
+            String mainPage = getMainPage(2, request);
+            model.addAttribute("profil", profilUser);
             if (principal == null) {
-                model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-                model.addAttribute("loginPageText", "Log-in");
-                model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+                noLoginModelAttribut(model, mainPage);
             } else {
-                EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-                model.addAttribute("loginPageText", user.getName());
-                model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-                model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-                model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-                model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
-            }
-            model.addAttribute("mainPage", mainPage);
-            model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-            model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-            model.addAttribute("user", profilUser);
+                loginModelAttribut(model, mainPage, principal);
+            }    
+            publicModelAttribut(model, mainPage);
             return "profil";
         }
     }
@@ -144,40 +173,20 @@ public class MainController {
     @RequestMapping(value = "/profilsettings", method = RequestMethod.GET)
     public String profilEditPage(HttpServletRequest request, Model model, Principal principal) {
 
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-
+        String mainPage = getMainPage(1, request);
         if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+            noLoginModelAttribut(model, mainPage);
         } else {
-            EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            user.setEthingThingSet(null);
-            user.setId(Long.MIN_VALUE);
-            user.setPassword("");
-            user.setRole("");
-            model.addAttribute("user", user);
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+            loginModelAttribut(model, mainPage, principal);
         }
-        model.addAttribute("mainPage", mainPage);
-        model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-
+        publicModelAttribut(model, mainPage);
         return "profilsettings";
 
     }
 
     @RequestMapping("/login")
     public String loginPage(HttpServletRequest request, Model model) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
+        String mainPage = getMainPage(1, request);
         model.addAttribute("mainPage", mainPage);
         model.addAttribute("registerPage", mainPage + REGISTER_HTML);
         model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
@@ -186,62 +195,30 @@ public class MainController {
 
     @RequestMapping("/rememberme")
     public String remembermePage(HttpServletRequest request, Model model) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-        model.addAttribute("mainPage", mainPage);
-        model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-        model.addAttribute("rememberMePage", mainPage + REMEMBERME_HTML);
         return "rememberme";
     }
 
     @RequestMapping("/register")
     public String registerPage(HttpServletRequest request, Model model, Principal principal) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-
+        String mainPage = getMainPage(1, request);        
         if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+            noLoginModelAttribut(model, mainPage);
         } else {
-            EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+            loginModelAttribut(model, mainPage, principal);
         }
-        model.addAttribute("mainPage", mainPage);
-        model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-        model.addAttribute("mainPage", mainPage);
+        publicModelAttribut(model, mainPage);
         return "register";
     }
 
     @RequestMapping("/thingadd")
     public String thingaddPage(HttpServletRequest request, Model model, Principal principal) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-        model.addAttribute("mainPage", mainPage);
+        String mainPage = getMainPage(1, request);
         if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+            noLoginModelAttribut(model, mainPage);
         } else {
-            EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+            loginModelAttribut(model, mainPage, principal);
         }
-        model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-        model.addAttribute("mainPage", mainPage);
+        publicModelAttribut(model, mainPage);
         List<EthingThingtype> thingType = ethingThingTypeRepository.findAll();
         model.addAttribute("thingtype", thingType);
         return "thingadd";
@@ -249,33 +226,35 @@ public class MainController {
 
     @RequestMapping("/thingedit/{thinghashId}")
     public String thingeditPage(HttpServletRequest request, @PathVariable("thinghashId") String thingHashId, Model model, Principal principal) {
-        String mainPage = new String(request.getRequestURL().
-                toString().substring(0, request.getRequestURL().
-                        toString().lastIndexOf("/")));
-        mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
+        String mainPage = getMainPage(2, request);
 
-        model.addAttribute("mainPage", mainPage);
         List<EthingThingtype> thingType = ethingThingTypeRepository.findAll();
         model.addAttribute("thingtype", thingType);
         EthingThing thing = ethingThingRepository.findEthingThingByIdhash(thingHashId);
         model.addAttribute("thing", thing);
         Set<EthingFeature> features = thing.getEthingFeatureSet();
-        model.addAttribute("features", features);
-        if (principal == null) {
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("loginPageText", "Log-in");
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
-        } else {
-            EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
-            model.addAttribute("loginPageText", user.getName());
-            model.addAttribute("loginPage", mainPage + PROFIL_HTML + user.getName());
-            model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML + user.getName());
-            model.addAttribute("logoutPage", mainPage + LOGOUT_HTML);
-            model.addAttribute("usersettingsPage", mainPage + USERSETTINGS_HTML);
+        List<EthingFeature> featuresPos = new ArrayList<>();
+        List<EthingFeature> featuresNeu = new ArrayList<>();
+        List<EthingFeature> featuresNeg = new ArrayList<>();
+        for (Iterator<EthingFeature> iterator = features.iterator(); iterator.hasNext();) {
+            EthingFeature next = iterator.next();
+            if (next.getEffect().equals("POS")) {
+                featuresPos.add(next);
+            } else if (next.getEffect().equals("NUT")) {
+                featuresNeu.add(next);
+            } else if (next.getEffect().equals("NEG")) {
+                featuresNeg.add(next);
+            }
         }
-        model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
-        model.addAttribute("registerPage", mainPage + REGISTER_HTML);
-        model.addAttribute("mainPage", mainPage);
+        model.addAttribute("featuresPos", featuresPos);
+        model.addAttribute("featuresNeu", featuresNeu);
+        model.addAttribute("featuresNeg", featuresNeg);
+        if (principal == null) {
+            noLoginModelAttribut(model, mainPage);
+        } else {
+            loginModelAttribut(model, mainPage, principal);
+        }
+        publicModelAttribut(model, mainPage);
         return "thingedit";
     }
 
@@ -292,11 +271,30 @@ public class MainController {
             model.addAttribute("thingaddPage", mainPage + THINGADD_HTML);
             model.addAttribute("thing", thing);
             Set<EthingFeature> features = thing.getEthingFeatureSet();
-            model.addAttribute("features", features);
+            if (features != null) {
+                List<EthingFeature> featuresPos = new ArrayList<>();
+                List<EthingFeature> featuresNeu = new ArrayList<>();
+                List<EthingFeature> featuresNeg = new ArrayList<>();
+                for (Iterator<EthingFeature> iterator = features.iterator(); iterator.hasNext();) {
+                    EthingFeature next = iterator.next();
+                    if (next.getEffect().equals("POS")) {
+                        featuresPos.add(next);
+                    } else if (next.getEffect().equals("NUT")) {
+                        featuresNeu.add(next);
+                    } else if (next.getEffect().equals("NEG")) {
+                        featuresNeg.add(next);
+                    }
+                }
+                model.addAttribute("featuresPos", featuresPos);
+                model.addAttribute("featuresNeu", featuresNeu);
+                model.addAttribute("featuresNeg", featuresNeg);
+            }
             if (principal == null) {
                 model.addAttribute("loginPage", mainPage + LOGIN_HTML);
                 model.addAttribute("loginPageText", "Log-in");
                 model.addAttribute("userthingPage", mainPage + USERTHINGS_HTML);
+                model.addAttribute("thingaeditPage", "null");
+                model.addAttribute("thingdeletePage", "null");
 
             } else {
                 EthingUser user = ethingUserRepository.findEthingUserByLogin(principal.getName());
@@ -318,15 +316,10 @@ public class MainController {
     }
 
     @RequestMapping(value = "/activation/{activationId}", method = RequestMethod.GET)
-    public String activationUser(HttpServletRequest request, @PathVariable("activationId") String hashId, Model model) {
-        if (!"".equals(hashId)) {
-            String mainPage = new String(request.getRequestURL().
-                    toString().substring(0, request.getRequestURL().
-                            toString().lastIndexOf("/")));
-            mainPage = mainPage.substring(0, mainPage.lastIndexOf("/"));
-            model.addAttribute("mainPage", mainPage);
-            model.addAttribute("loginPage", mainPage + LOGIN_HTML);
-            model.addAttribute("registerPage", mainPage + REGISTER_HTML);
+    public String activationUser(HttpServletRequest request, @PathVariable("activationId") String hashId, Model model) 
+    {
+        if (!"".equals(hashId)) 
+        {
             EthingUser user = ethingUserRepository.findEthingUserByActivation(hashId);
             if (user != null) {
                 user.setActivation("1");

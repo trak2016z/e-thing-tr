@@ -1,7 +1,7 @@
 /**
  *
  * @author prographer
-*/
+ */
 //===========================================
 function getMainPage()
 {
@@ -110,7 +110,7 @@ function getFeatures()
     for (i = 0; i < negatives.length; i++) {
         if (negatives[i].value != '')
         {
-            var negative = {name: negatives[i].value, effect: 'NEU'};
+            var negative = {name: negatives[i].value, effect: 'NEG'};
             featuresList.push(negative);
         }
     }
@@ -138,6 +138,9 @@ function addThing()
         } else
         {
             $('#newThingMessage').modal('show');
+            $('#positiveContener').html('');
+            $('#neutralContener').html('');
+            $('#negativeContener').html('');
             document.getElementById("thingForm").reset();
         }
     } else

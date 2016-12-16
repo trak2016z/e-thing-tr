@@ -1,7 +1,7 @@
 /**
  *
  * @author prographer
-*/
+ */
 //===========================================
 function getMainPage()
 {
@@ -14,7 +14,6 @@ function getMainPage()
 //===========================================
 function sendThingData(thingData)
 {
-    console.log(thingData);
     var result = null;
     $.ajax({
         url: getMainPage() + "/editThing",
@@ -111,7 +110,7 @@ function getFeatures()
     for (i = 0; i < negatives.length; i++) {
         if (negatives[i].value != '')
         {
-            var negative = {name: negatives[i].value, effect: 'NEU'};
+            var negative = {name: negatives[i].value, effect: 'NEG'};
             featuresList.push(negative);
         }
     }
@@ -129,10 +128,11 @@ function editThing()
     if (!("access" in thing)) {
         thing.access = 'off';
     }
-    thing.idhash = url.split('/').pop();
+    thing.idhash = window.location.href.split('/')[window.location.href.split('/').length - 1];
     if (checkThingDataFromForm(thing))
     {
         data = {ethingFeatures: getFeatures(), ethingThing: thing};
+        console.log(data);
         var result = sendThingData(data);
         if (result.responseText == "error")
         {
@@ -140,7 +140,7 @@ function editThing()
         } else
         {
             $('#newThingMessage').modal('show');
-            document.getElementById("thingForm").reset();
+            window.location = getMainPage();
         }
     } else
     {

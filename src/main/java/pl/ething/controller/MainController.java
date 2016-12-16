@@ -145,7 +145,7 @@ public class MainController {
             EthingThing next = iterator.next();
             if (next.getName().contains(text)) {
                 next.setIdhash(mainPage + THING_HTML + next.getIdhash());
-                searchThings.add(next);
+                searchThings.add(next);   
             }
         }
         model.addAttribute("searchThingsNumber", searchThings.size());

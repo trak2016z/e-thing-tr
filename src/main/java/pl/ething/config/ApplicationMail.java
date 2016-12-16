@@ -19,7 +19,7 @@ import pl.ething.model.EthingUser;
 @Service
 public class ApplicationMail {
 
-    private String SenderEmail = "virus268268@gmail.com";
+    private String SenderEmail = "ethingsystem@gmail.com ";
 
     private JavaMailSender getJavaMailSender() {
         
@@ -28,7 +28,7 @@ public class ApplicationMail {
         sender.setHost("smtp.gmail.com");
         sender.setPort(587);
         sender.setUsername(this.SenderEmail);
-        sender.setPassword("katarzyna268");
+        sender.setPassword("changeyourlife");
 
         Properties mailProps = new Properties();
         mailProps.put("mail.smtps.auth", "true");

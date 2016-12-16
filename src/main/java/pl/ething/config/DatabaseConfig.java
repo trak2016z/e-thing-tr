@@ -35,7 +35,7 @@ public class DatabaseConfig {
         //driverManagerDataSource.setPassword("root");
         return driverManagerDataSource;
     }
-
+ 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();

@@ -55,18 +55,18 @@ and open the template in the editor.
             <p>Please write your new data to form</p>
             <form id="userForm" class="ui form">
                 <div class="field">
-                    <label>Nick:</label>
+                    <label><i class="child icon"></i> Nick:</label>
                     <input text="${user.name}" type="text" name="name" placeholder="name"/>
                 </div>
                 <div class="field">
-                    <label>Password:</label>
+                    <label> <i class="protect icon"></i>Password:</label>
                     <input type="password" name="password" placeholder="password"/>
                 </div>
                 <div class="field">
                     <label>Re-Password:</label>
                     <input type="password" name="repassword" placeholder="repassword"/>
                 </div>
-                <button onclick="editUser()" class="ui button" type="button">Submit</button>
+                <button onclick="editUser()" class="ui button" type="button">Edit <i class="save icon"></i></button>
             </form>
         </div>
         <p></p>
@@ -130,35 +130,16 @@ and open the template in the editor.
         <div class="ui inverted vertical footer segment">
             <div class="ui center aligned container">
                 <div class="ui stackable inverted divided grid">
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Last e-thing</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="three wide column">
-                        <h4 class="ui inverted header">Last e-user</h4>
-                        <div class="ui inverted link list">
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link One</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Two</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Three</a>
-                            <a href="http://semantic-ui.com/examples/fixed.html#" class="item">Link Four</a>
-                        </div>
-                    </div>
-                    <div class="seven wide column">
-                        <h4 class="ui inverted header">Footer Header</h4>
-                        <p>Extra space for a call to action inside the footer that could help re-engage users.</p>
+                    <div class=" wide column">
+                        <h4 class="ui inverted header">E-thing information</h4>
+                        <p>Here you can find more information</p>
                     </div>
                 </div>
                 <div class="ui inverted section divider"></div>
                 <div class="ui horizontal inverted small divided link list">
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Site Map</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Contact Us</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Terms and Conditions</a>
-                    <a class="item" href="http://semantic-ui.com/examples/fixed.html#">Privacy Policy</a>
+                    <a class="item" >Contact Us</a>
+                    <a class="item" >Terms and Conditions</a>
+                    <a class="item" >Privacy Policy</a>
                 </div>
             </div>
         </div>

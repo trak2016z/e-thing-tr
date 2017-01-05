@@ -199,7 +199,7 @@ public class MainController {
         return "rememberme";
     }
 
-    @RequestMapping("/register")
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerPage(HttpServletRequest request, Model model, Principal principal) {
         String mainPage = getMainPage(1, request);        
         if (principal == null) {

@@ -93,10 +93,6 @@ public class UserController {
     public @ResponseBody
     String registerUser(HttpServletRequest request, @RequestBody EthingUser ethingUser, Model model) {
         try {
-            /*PasswordValidator passwordValidator = new PasswordValidator();
-            //if (!passwordValidator.validate(ethingUser.getPassword())) {
-                //return "error";
-            } else {*/
                 String mainPage = new String(request.getRequestURL().
                         toString().substring(0, request.getRequestURL().
                                 toString().lastIndexOf("/")));
@@ -115,7 +111,6 @@ public class UserController {
                 this.ethingUserRepository.save(newEthingUser);
                 this.senderMail.sendEmailActivationUser(newEthingUser, mainPage);
                 return "message";
-           // }
         } catch (Exception e) {
             System.out.printf(e.getMessage());    
             return "error";

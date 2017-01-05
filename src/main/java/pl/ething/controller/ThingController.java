@@ -111,8 +111,7 @@ public class ThingController {
 
         try {
             EthingThing newThing = ethingThingAndFeatures.getEthingThing();
-            //not impl.
-            newThing.setEthingThingimageSet(null);//not impl.
+            newThing.setEthingThingimageSet(null);
             int idhash = (newThing.getName() + newThing.getStatus() + newThing.getUrl()).hashCode();
             idhash = Math.abs(idhash);
             newThing.setIdhash(idhash + "");
@@ -127,8 +126,6 @@ public class ThingController {
                 next.setThingid(thing);
             }
             ethingFeatureRepository.save(ethingFeatures);
-            //Set<EthingFeature> setEthingFeatures = new HashSet<EthingFeature>(ethingFeatures);
-            //thing.setEthingFeatureSet(setEthingFeatures);
             return "message";
         } catch (Exception e) {
             return "error";

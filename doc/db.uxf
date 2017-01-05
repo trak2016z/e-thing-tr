@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.1.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>590</x>
+      <y>350</y>
+      <w>210</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>ething_feature
+--
+id integer NOT NULL,
+name text NOT NULL,
+description text,
+thingid integer NOT NULL,
+effect NOT NULL,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>390</x>
+      <y>100</y>
+      <w>210</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>ething_thing
+--
+id integer PRIMARY KEY,
+idhash text NOT NULL,
+name text NOT NULL,
+status text  NOT NULL,
+userid integer NOT NULL,
+access text  NOT NULL,
+url text  NOT NULL,
+url2 text,
+description text,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>320</y>
+      <w>210</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ething_thingimage
+--
+id integer PRIMARY KEY,
+image bytea NOT NULL,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>620</x>
+      <y>220</y>
+      <w>180</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ething_thingtype
+--
+id integer PRIMARY KEY,
+name text  NOT NULL,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>100</y>
+      <w>210</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>ething_user
+--
+id integer PRIMARY KEY,
+name text NOT NULL,
+login text NOT NULL,
+password text NOT NULL,
+email text NOT NULL,
+role text NOT NULL,
+activation text NOT NULL,
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>260</x>
+      <y>140</y>
+      <w>150</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..n
+</panel_attributes>
+    <additional_attributes>10.0;20.0;130.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>590</x>
+      <y>140</y>
+      <w>150</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=0..n
+m2=1
+</panel_attributes>
+    <additional_attributes>10.0;20.0;130.0;20.0;130.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>250</y>
+      <w>280</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..n
+</panel_attributes>
+    <additional_attributes>260.0;20.0;10.0;20.0;10.0;70.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>480</x>
+      <y>280</y>
+      <w>130</w>
+      <h>180</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..n
+</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;150.0;110.0;150.0</additional_attributes>
+  </element>
+</diagram>

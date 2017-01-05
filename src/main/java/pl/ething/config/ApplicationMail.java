@@ -19,7 +19,7 @@ import pl.ething.model.EthingUser;
 @Service
 public class ApplicationMail {
 
-    private String SenderEmail = "ethingsystem@gmail.com ";
+    private String SenderEmail = "ethingsystem@gmail.com";
 
     private JavaMailSender getJavaMailSender() {
         
